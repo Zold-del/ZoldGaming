@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pong Arcade - ZoldGaming</title>
+    <meta name="description" content="Pong Arcade - Le premier jeu vidéo commercial dans une version modernisée sur ZoldGaming. Affrontez l'ordinateur dans ce jeu classique remis au goût du jour !">    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/retro.css">
+    <link rel="stylesheet" href="../css/pong.css">
+        
+        .game-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--primary-dark);
+        }
+        
+        .game-title {
+            color: var(--primary);
+            text-shadow: var(--glow-primary);
+            font-size: 1.5rem;
+            margin: 0;
+        }
+        
+        .game-score {
+            color: var(--secondary);
+            font-size: 0.8rem;
+        }
+        
+        #pong-canvas {
+            background-color: #000;
+            display: block;
+            margin: 0 auto;
+            width: 100%;
+            max-width: 600px;
+            height: 400px;
+            image-rendering: pixelated;
+            border: 2px solid var(--secondary);
+            box-shadow: 0 0 10px rgba(0, 255, 255, 0.4);
+        }
+        
+        .game-controls {
+            margin-top: 1.5rem;
+            text-align: center;
+        }
+        
+        .game-controls p {
+            margin-bottom: 0.5rem;
+            font-size: 0.7rem;
+            color: var(--text-dim);
+        }
+        
+        .control-btn {
+            background-color: var(--card-bg);
+            border: 2px solid var(--secondary);
+            color: var(--secondary);
+            font-family: 'Press Start 2P', monospace;
+            font-size: 0.7rem;
+            padding: 0.8rem 1.2rem;
+            margin: 0 0.5rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .control-btn:hover {
+            background-color: var(--secondary);
+            color: var(--bg-dark);
+            box-shadow: 0 0 10px rgba(0, 255, 255, 0.7);
+        }
+        
+        .difficulty-controls {
+            margin-top: 1rem;
+            text-align: center;
+        }
+        
+        .difficulty-controls label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-size: 0.7rem;
+            color: var(--text-dim);
+        }
+        
+        .difficulty-btn {
+            background-color: var(--card-bg);
+            border: 1px solid var(--primary);
+            color: var(--text);
+            font-family: 'Press Start 2P', monospace;
+            font-size: 0.6rem;
+            padding: 0.5rem 1rem;
+            margin: 0 0.2rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .difficulty-btn.active {
+            background-color: var(--primary);
+            color: var(--bg-dark);
+            box-shadow: 0 0 10px rgba(255, 0, 255, 0.7);
+        }
+        
+        .mobile-controls {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 1rem;
+        }
+        
+        .mobile-btn {
+            background-color: var(--card-bg);
+            border: 2px solid var(--secondary);
+            color: var(--secondary);
+            font-family: 'Press Start 2P', monospace;
+            font-size: 1rem;
+            width: 70px;
+            height: 70px;
+            margin: 0.5rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        /* Responsive */
+        @media screen and (max-width: 768px) {
+            .game-controls p {
+                display: none;
+            }
+            
+            .mobile-controls {
+                display: flex;
+            }
+            
+            .pong-keyboard-controls {
+                display: none;
+            }
+        }
+    </style>
+    <!-- Google AdSense - À remplacer par votre propre code -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-VOTRE-ID-ADSENSE" crossorigin="anonymous"></script>
+</head>
+<body>
+    <div class="container">
+        <header class="main-header">
+            <div class="logo-container">
+                <h1 class="logo">ZoldGaming</h1>
+                <span class="logo-blink">_</span>
+            </div>
+            <nav class="main-nav">
+                <ul>
+                    <li><a href="../index.html">Accueil</a></li>
+                    <li><a href="index.html" class="active">Jeux</a></li>
+                    <li><a href="../boutique.html">Boutique</a></li>
+                    <li><a href="../profil.html" id="nav-profil">Profil</a></li>
+                    <li><a href="../connexion.html" id="nav-connexion">Connexion</a></li>
+                </ul>
+            </nav>            <button class="hamburger" id="hamburger" title="Menu de navigation">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </header>
+
+        <main>
+            <!-- Bannière AdSense Supérieure -->
+            <div class="ad-container">
+                <!-- Remplacer par votre code AdSense réel -->
+                <div class="ad-placeholder">
+                    <p>Publicité Google AdSense</p>
+                </div>
+            </div>
+            
+            <section class="game-section">
+                <div class="game-container">
+                    <div class="game-header">
+                        <h2 class="game-title">Pong Arcade</h2>
+                        <div class="game-score">
+                            <span id="player-score">0</span> - <span id="ai-score">0</span>
+                        </div>
+                    </div>
+                      <div class="canvas-container">
+                        <canvas id="pong-canvas" width="600" height="400"></canvas>
+                        
+                        <!-- Game Over Screen -->
+                        <div id="game-over" class="game-over">
+                            <h2 id="game-result">Match terminé</h2>
+                            <p>Score final: <span id="final-score">0 - 0</span></p>
+                            <button id="restart-btn" class="btn btn-primary">Nouvelle partie</button>
+                        </div>
+                    </div>
+                    
+                    <div class="game-controls">
+                        <p class="pong-keyboard-controls">Contrôles: Utilisez les touches ↑ et ↓ ou W et S pour déplacer votre raquette</p>
+                        
+                        <div class="difficulty-controls">
+                            <label>Difficulté:</label>
+                            <button class="difficulty-btn" data-difficulty="easy">Facile</button>
+                            <button class="difficulty-btn active" data-difficulty="medium">Moyen</button>
+                            <button class="difficulty-btn" data-difficulty="hard">Difficile</button>
+                        </div>
+                        
+                        <div class="mobile-controls">
+                            <button class="mobile-btn up-btn">↑</button>
+                            <button class="mobile-btn down-btn">↓</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Bannière AdSense Inférieure -->
+            <div class="ad-container">
+                <!-- Remplacer par votre code AdSense réel -->
+                <div class="ad-placeholder">
+                    <p>Publicité Google AdSense</p>
+                </div>
+            </div>
+        </main>
+
+        <footer>
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <h2>ZoldGaming</h2>
+                    <p>© 2025 ZoldGaming. Tous droits réservés.</p>
+                </div>
+                <div class="footer-links">
+                    <h3>Liens utiles</h3>
+                    <ul>
+                        <li><a href="../index.html">Accueil</a></li>
+                        <li><a href="index.html">Jeux</a></li>
+                        <li><a href="../boutique.html">Boutique</a></li>
+                        <li><a href="../mentions-legales.html">Mentions légales</a></li>
+                    </ul>
+                </div>
+                <div class="footer-social">
+                    <h3>Nous suivre</h3>
+                    <div class="social-icons">
+                        <a href="#" class="social-icon">📱</a>
+                        <a href="#" class="social-icon">📘</a>
+                        <a href="#" class="social-icon">📸</a>
+                        <a href="#" class="social-icon">🐦</a>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <script src="../js/main.js"></script>
+    <script src="../js/auth.js"></script>
+    <script src="pong/pong.js"></script>
+</body>
+</html>

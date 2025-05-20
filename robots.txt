@@ -1,0 +1,5 @@
+# ZoldGaming Robots.txt
+User-agent: *
+Allow: /
+
+Sitemap: https://votre-nom-utilisateur.github.io/zoldgaming/sitemap.xml

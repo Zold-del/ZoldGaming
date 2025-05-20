@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tetris Neon - ZoldGaming</title>
+    <meta name="description" content="Tetris Neon - Le jeu classique dans une version néon sur ZoldGaming. Empilez les blocs et établissez un nouveau record !">    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/retro.css">
+    <link rel="stylesheet" href="../css/tetris.css">
+        
+        .game-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--primary-dark);
+        }
+        
+        .game-title {
+            color: var(--primary);
+            text-shadow: var(--glow-primary);
+            font-size: 1.5rem;
+            margin: 0;
+        }
+        
+        .game-score {
+            color: var(--secondary);
+            font-size: 0.8rem;
+        }
+        
+        .tetris-container {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        #tetris-canvas {
+            background-color: #000;
+            display: block;
+            width: 300px;
+            height: 600px;
+            image-rendering: pixelated;
+            border: 2px solid var(--secondary);
+            box-shadow: 0 0 10px rgba(0, 255, 255, 0.4);
+        }
+        
+        .side-panel {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            width: 150px;
+        }
+        
+        .next-piece {
+            background-color: #000;
+            width: 150px;
+            height: 150px;
+            border: 2px solid var(--primary);
+            margin-bottom: 1rem;
+        }
+        
+        .game-stats {
+            background-color: rgba(0, 0, 0, 0.7);
+            padding: 1rem;
+            border: 2px solid var(--primary);
+        }
+        
+        .stat-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+            font-size: 0.7rem;
+        }
+        
+        .game-controls {
+            margin-top: 1.5rem;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+        
+        .control-btn {
+            background-color: var(--card-bg);
+            border: 2px solid var(--secondary);
+            color: var(--secondary);
+            font-family: 'Press Start 2P', monospace;
+            font-size: 0.7rem;
+            padding: 0.8rem 1.2rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .control-btn:hover {
+            background-color: var(--secondary);
+            color: var(--bg-dark);
+            box-shadow: 0 0 10px rgba(0, 255, 255, 0.7);
+        }
+        
+        .mobile-controls {
+            display: none;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 0.5rem;
+            max-width: 200px;
+            margin: 1.5rem auto 0;
+        }
+        
+        .mobile-btn {
+            aspect-ratio: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+        }
+        
+        .mobile-up {
+            grid-column: 2;
+            grid-row: 1;
+        }
+        
+        .mobile-left {
+            grid-column: 1;
+            grid-row: 2;
+        }
+        
+        .mobile-right {
+            grid-column: 3;
+            grid-row: 2;
+        }
+        
+        .mobile-down {
+            grid-column: 2;
+            grid-row: 3;
+        }
+        
+        /* Responsive */
+        @media screen and (max-width: 768px) {
+            .tetris-container {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            #tetris-canvas {
+                width: 240px;
+                height: 480px;
+            }
+            
+            .side-panel {
+                flex-direction: row;
+                width: 100%;
+                margin-top: 1rem;
+            }
+            
+            .next-piece {
+                width: 120px;
+                height: 120px;
+                margin-bottom: 0;
+            }
+            
+            .game-stats {
+                flex: 1;
+                margin-left: 1rem;
+            }
+            
+            .game-controls {
+                display: none;
+            }
+            
+            .mobile-controls {
+                display: grid;
+            }
+        }
+    </style>
+    <!-- Google AdSense - À remplacer par votre propre code -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-VOTRE-ID-ADSENSE" crossorigin="anonymous"></script>
+</head>
+<body>
+    <div class="container">
+        <header class="main-header">
+            <div class="logo-container">
+                <h1 class="logo">ZoldGaming</h1>
+                <span class="logo-blink">_</span>
+            </div>
+            <nav class="main-nav">
+                <ul>
+                    <li><a href="../index.html">Accueil</a></li>
+                    <li><a href="index.html" class="active">Jeux</a></li>
+                    <li><a href="../boutique.html">Boutique</a></li>
+                    <li><a href="../profil.html" id="nav-profil">Profil</a></li>
+                    <li><a href="../connexion.html" id="nav-connexion">Connexion</a></li>
+                </ul>
+            </nav>            <button class="hamburger" id="hamburger" title="Menu de navigation">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </header>
+
+        <main>
+            <!-- Bannière AdSense Supérieure -->
+            <div class="ad-container">
+                <!-- Remplacer par votre code AdSense réel -->
+                <div class="ad-placeholder">
+                    <p>Publicité Google AdSense</p>
+                </div>
+            </div>
+            
+            <section class="game-section">
+                <div class="game-container">
+                    <div class="game-header">
+                        <h2 class="game-title">Tetris Neon</h2>
+                        <div class="game-score">Score: <span id="score">0</span></div>
+                    </div>
+                    
+                    <div class="tetris-container">
+                        <canvas id="tetris-canvas" width="300" height="600"></canvas>
+                        
+                        <div class="side-panel">
+                            <canvas id="next-piece" class="next-piece" width="150" height="150"></canvas>
+                            
+                            <div class="game-stats">
+                                <div class="stat-row">
+                                    <span>Niveau:</span>
+                                    <span id="level">1</span>
+                                </div>
+                                <div class="stat-row">
+                                    <span>Lignes:</span>
+                                    <span id="lines">0</span>
+                                </div>
+                                <div class="stat-row">
+                                    <span>Meilleur:</span>
+                                    <span id="high-score">0</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                      <!-- Game Over Screen -->
+                    <div id="game-over" class="game-over">
+                        <h2>Game Over</h2>
+                        <p>Score final: <span id="final-score">0</span></p>
+                        <button id="restart-btn" class="btn btn-primary">Rejouer</button>
+                    </div>
+                    
+                    <!-- PC Controls -->
+                    <div class="game-controls">
+                        <button class="control-btn left-btn">← Gauche</button>
+                        <button class="control-btn right-btn">Droite →</button>
+                        <button class="control-btn rotate-btn">↻ Rotation</button>
+                        <button class="control-btn down-btn">↓ Descendre</button>
+                        <button class="control-btn drop-btn">⬇ Lâcher</button>
+                    </div>
+                    
+                    <!-- Mobile Controls -->
+                    <div class="mobile-controls">
+                        <button class="control-btn mobile-btn mobile-up rotate-btn">↻</button>
+                        <button class="control-btn mobile-btn mobile-left left-btn">←</button>
+                        <button class="control-btn mobile-btn mobile-right right-btn">→</button>
+                        <button class="control-btn mobile-btn mobile-down down-btn">↓</button>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Bannière AdSense Inférieure -->
+            <div class="ad-container">
+                <!-- Remplacer par votre code AdSense réel -->
+                <div class="ad-placeholder">
+                    <p>Publicité Google AdSense</p>
+                </div>
+            </div>
+        </main>
+
+        <footer>
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <h2>ZoldGaming</h2>
+                    <p>© 2025 ZoldGaming. Tous droits réservés.</p>
+                </div>
+                <div class="footer-links">
+                    <h3>Liens utiles</h3>
+                    <ul>
+                        <li><a href="../index.html">Accueil</a></li>
+                        <li><a href="index.html">Jeux</a></li>
+                        <li><a href="../boutique.html">Boutique</a></li>
+                        <li><a href="../mentions-legales.html">Mentions légales</a></li>
+                    </ul>
+                </div>
+                <div class="footer-social">
+                    <h3>Nous suivre</h3>
+                    <div class="social-icons">
+                        <a href="#" class="social-icon">📱</a>
+                        <a href="#" class="social-icon">📘</a>
+                        <a href="#" class="social-icon">📸</a>
+                        <a href="#" class="social-icon">🐦</a>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <script src="../js/main.js"></script>
+    <script src="../js/auth.js"></script>
+    <script src="tetris/tetris.js"></script>
+</body>
+</html>

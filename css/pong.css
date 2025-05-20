@@ -1,0 +1,194 @@
+/* Styles pour le jeu Pong */
+
+.game-container {
+    width: 100%;
+    max-width: 640px;
+    margin: 0 auto;
+    padding: 2rem;
+    background-color: var(--card-bg);
+    border-radius: 8px;
+    border: 2px solid var(--primary);
+    box-shadow: 0 0 20px rgba(255, 0, 255, 0.3);
+}
+
+.game-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--primary-dark);
+}
+
+.game-title {
+    color: var(--primary);
+    text-shadow: var(--glow-primary);
+    font-size: 1.5rem;
+    margin: 0;
+}
+
+.game-score {
+    color: var(--secondary);
+    font-size: 0.8rem;
+}
+
+.game-canvas-container {
+    position: relative;
+    width: 100%;
+    padding-bottom: 75%; /* Rapport 4:3 */
+    background-color: #000;
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+#pongCanvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.game-controls {
+    margin-top: 1.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.difficulty-selector {
+    display: flex;
+    align-items: center;
+}
+
+.difficulty-selector span {
+    margin-right: 0.5rem;
+    font-size: 0.7rem;
+}
+
+.game-buttons {
+    display: flex;
+    gap: 1rem;
+}
+
+.score-container {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 1rem;
+}
+
+.player-score, .ai-score {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.score-label {
+    font-size: 0.7rem;
+    color: var(--text-dim);
+}
+
+.score-value {
+    font-size: 1.5rem;
+    color: var(--secondary);
+    text-shadow: 0 0 10px var(--secondary);
+}
+
+.game-info {
+    margin-top: 2rem;
+    padding: 1rem 0;
+    border-top: 1px solid var(--primary-dark);
+}
+
+.game-info h3 {
+    color: var(--secondary);
+    margin-bottom: 1rem;
+    font-size: 1rem;
+}
+
+.game-info p {
+    font-size: 0.7rem;
+    color: var(--text-dim);
+    margin-bottom: 0.5rem;
+    line-height: 1.4;
+}
+
+.control-hint {
+    display: inline-block;
+    background-color: var(--card-bg);
+    border: 1px solid var(--primary-dark);
+    padding: 0.2rem 0.4rem;
+    border-radius: 4px;
+    margin: 0 0.2rem;
+}
+
+/* Canvas Container */
+.canvas-container {
+    position: relative;
+}
+
+/* Game Over Overlay */
+.game-over-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    z-index: 10;
+}
+
+/* Game Over Screen */
+.game-over {
+    display: none;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgba(0,0,0,0.8);
+    padding: 2rem;
+    text-align: center;
+    border: 2px solid var(--primary);
+}
+
+.game-over-message {
+    font-size: 1.5rem;
+    color: var(--primary);
+    margin-bottom: 1rem;
+    text-shadow: var(--glow-primary);
+}
+
+/* Mobile controls */
+.mobile-controls {
+    display: none;
+    justify-content: space-between;
+    margin-top: 1rem;
+}
+
+.mobile-btn {
+    width: 45%;
+    padding: 1rem;
+    background-color: rgba(255, 255, 255, 0.1);
+    border: none;
+    border-radius: 8px;
+    color: var(--text);
+    font-family: 'Press Start 2P', monospace;
+    text-transform: uppercase;
+    font-size: 0.8rem;
+}
+
+.mobile-btn:active {
+    background-color: var(--primary);
+    color: var(--bg-dark);
+}
+
+/* Media Queries */
+@media (max-width: 768px) {
+    .mobile-controls {
+        display: flex;
+    }
+}

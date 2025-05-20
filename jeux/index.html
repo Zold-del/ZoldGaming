@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jeux Rétro - ZoldGaming</title>
+    <meta name="description" content="Découvrez notre collection de jeux rétro au style pixel art des années 80-90. Snake, Tetris, Pong et bien d'autres jeux classiques revisités.">    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/retro.css">
+    <link rel="stylesheet" href="../css/games.css">
+    <!-- Google AdSense - À remplacer par votre propre code quand vous aurez un compte AdSense -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-VOTRE-ID-ADSENSE" crossorigin="anonymous"></script>
+        
+        .game-card {
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .game-info {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .game-info .btn {
+            margin-top: auto;
+        }
+        
+        .badge {
+            display: inline-block;
+            background-color: var(--primary);
+            color: var(--bg-dark);
+            font-size: 0.6rem;
+            padding: 0.3rem 0.5rem;
+            border-radius: 4px;
+            margin-right: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .badge.new {
+            background-color: var(--accent2);
+        }
+        
+        .badge.popular {
+            background-color: var(--accent1);
+        }
+        
+        .badge.coming-soon {
+            background-color: var(--text-dim);
+        }
+        
+        .categories {
+            margin: 2rem 0;
+            text-align: center;
+        }
+        
+        .category-btn {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            margin: 0.3rem;
+            background-color: var(--card-bg);
+            border: 1px solid var(--primary-dark);
+            color: var(--text);
+            font-family: 'Press Start 2P', monospace;
+            font-size: 0.7rem;
+            cursor: pointer;
+            transition: all var(--transition-speed);
+        }
+        
+        .category-btn:hover, .category-btn.active {
+            background-color: var(--primary);
+            color: var(--bg-dark);
+            box-shadow: var(--glow-primary);
+        }
+        
+        .search-bar {
+            display: flex;
+            max-width: 600px;
+            margin: 2rem auto;
+        }
+        
+        .search-input {
+            flex-grow: 1;
+            padding: 0.8rem;
+            background-color: rgba(0, 0, 0, 0.3);
+            border: 1px solid var(--primary-dark);
+            border-right: none;
+            border-radius: 4px 0 0 4px;
+            color: var(--text);
+            font-family: 'Press Start 2P', monospace;
+            font-size: 0.7rem;
+        }
+        
+        .search-btn {
+            padding: 0.8rem 1.2rem;
+            background-color: var(--primary);
+            border: 1px solid var(--primary);
+            color: var(--bg-dark);
+            font-family: 'Press Start 2P', monospace;
+            font-size: 0.7rem;
+            cursor: pointer;
+            border-radius: 0 4px 4px 0;
+        }
+        
+        .search-btn:hover {
+            background-color: var(--primary-dark);
+            box-shadow: var(--glow-primary);
+        }
+        
+        .no-games {
+            text-align: center;
+            padding: 3rem;
+            background-color: var(--card-bg);
+            border-radius: 8px;
+            color: var(--text-dim);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="main-header">
+            <div class="logo-container">
+                <h1 class="logo">ZoldGaming</h1>
+                <span class="logo-blink">_</span>
+            </div>
+            <nav class="main-nav">
+                <ul>
+                    <li><a href="../index.html">Accueil</a></li>
+                    <li><a href="index.html" class="active">Jeux</a></li>
+                    <li><a href="../boutique.html">Boutique</a></li>
+                    <li><a href="../profil.html" id="nav-profil">Profil</a></li>
+                    <li><a href="../connexion.html" id="nav-connexion">Connexion</a></li>
+                </ul>
+            </nav>            <button class="hamburger" id="hamburger" title="Menu de navigation">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </header>
+
+        <main>
+            <!-- Bannière AdSense Supérieure -->
+            <div class="ad-container">
+                <!-- Remplacer par votre code AdSense réel -->
+                <div class="ad-placeholder">
+                    <p>Publicité Google AdSense</p>
+                </div>
+            </div>
+            
+            <section class="games-section">
+                <h2 class="section-title glitch" data-text="MINI-JEUX RÉTRO">MINI-JEUX RÉTRO</h2>
+                
+                <div class="search-bar">
+                    <input type="text" class="search-input" id="search-input" placeholder="Rechercher un jeu...">
+                    <button class="search-btn" id="search-btn">Rechercher</button>
+                </div>
+                
+                <div class="categories">
+                    <button class="category-btn active" data-category="all">Tous</button>
+                    <button class="category-btn" data-category="arcade">Arcade</button>
+                    <button class="category-btn" data-category="puzzle">Puzzle</button>
+                    <button class="category-btn" data-category="action">Action</button>
+                    <button class="category-btn" data-category="strategy">Stratégie</button>
+                </div>
+                
+                <div class="games-list" id="games-list">
+                    <!-- Jeu 1: Snake -->
+                    <div class="game-card" data-categories="arcade,action">
+                        <div class="game-thumbnail">
+                            <img src="../images/placeholder-game1.png" alt="Snake Retro">
+                        </div>
+                        <div class="game-info">
+                            <h3>Snake Retro</h3>
+                            <div>
+                                <span class="badge popular">Populaire</span>
+                                <span class="badge">Arcade</span>
+                            </div>
+                            <p>Le jeu du serpent classique dans une version pixel art. Mangez des pommes, grandissez et évitez de vous mordre la queue !</p>
+                            <a href="snake.html" class="btn btn-primary">Jouer</a>
+                        </div>
+                    </div>
+                    
+                    <!-- Jeu 2: Tetris (à venir) -->
+                    <div class="game-card" data-categories="puzzle">
+                        <div class="game-thumbnail">
+                            <img src="../images/placeholder-game2.png" alt="Tetris Neon">
+                        </div>
+                        <div class="game-info">
+                            <h3>Tetris Neon</h3>
+                            <div>
+                                <span class="badge coming-soon">Bientôt</span>
+                                <span class="badge">Puzzle</span>
+                            </div>
+                            <p>Empile les blocs dans cette version néon du jeu culte. Faites des lignes complètes pour les faire disparaître et marquer des points.</p>
+                            <a href="#" class="btn btn-secondary">Bientôt disponible</a>
+                        </div>
+                    </div>
+                    
+                    <!-- Jeu 3: Pong (à venir) -->
+                    <div class="game-card" data-categories="arcade,action">
+                        <div class="game-thumbnail">
+                            <img src="../images/placeholder-game3.png" alt="Pong Arcade">
+                        </div>
+                        <div class="game-info">
+                            <h3>Pong Arcade</h3>
+                            <div>
+                                <span class="badge coming-soon">Bientôt</span>
+                                <span class="badge">Arcade</span>
+                            </div>
+                            <p>Le premier jeu vidéo commercial dans une version modernisée. Jouez contre l'ordinateur ou affrontez un ami en mode 2 joueurs.</p>
+                            <a href="#" class="btn btn-secondary">Bientôt disponible</a>
+                        </div>
+                    </div>
+                    
+                    <!-- Jeu 4: Space Invaders (à venir) -->
+                    <div class="game-card" data-categories="arcade,action">
+                        <div class="game-thumbnail">
+                            <img src="../images/placeholder-game4.png" alt="Space Invaders">
+                        </div>
+                        <div class="game-info">
+                            <h3>Space Invaders</h3>
+                            <div>
+                                <span class="badge coming-soon">Bientôt</span>
+                                <span class="badge">Arcade</span>
+                            </div>
+                            <p>Défendez la Terre contre des envahisseurs extraterrestres dans ce classique des salles d'arcade.</p>
+                            <a href="#" class="btn btn-secondary">Bientôt disponible</a>
+                        </div>
+                    </div>
+                    
+                    <!-- Jeu 5: Memory (à venir) -->
+                    <div class="game-card" data-categories="puzzle">
+                        <div class="game-thumbnail">
+                            <img src="../images/placeholder-game5.png" alt="Memory Pixel">
+                        </div>
+                        <div class="game-info">
+                            <h3>Memory Pixel</h3>
+                            <div>
+                                <span class="badge coming-soon">Bientôt</span>
+                                <span class="badge">Puzzle</span>
+                            </div>
+                            <p>Mettez votre mémoire à l'épreuve ! Retrouvez les paires d'images dans un temps limité pour gagner.</p>
+                            <a href="#" class="btn btn-secondary">Bientôt disponible</a>
+                        </div>
+                    </div>
+                    
+                    <!-- Jeu 6: Mini RPG (à venir) -->
+                    <div class="game-card" data-categories="strategy,action">
+                        <div class="game-thumbnail">
+                            <img src="../images/placeholder-game6.png" alt="Mini RPG">
+                        </div>
+                        <div class="game-info">
+                            <h3>Mini RPG</h3>
+                            <div>
+                                <span class="badge coming-soon">Bientôt</span>
+                                <span class="badge">Stratégie</span>
+                            </div>
+                            <p>Un mini RPG au tour par tour où vous devez explorer un donjon, combattre des monstres et trouver des trésors.</p>
+                            <a href="#" class="btn btn-secondary">Bientôt disponible</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Message si aucun jeu n'est trouvé -->
+                <div class="no-games" id="no-games" style="display: none;">
+                    <h3>Aucun jeu trouvé 😢</h3>
+                    <p>Essayez avec un autre terme de recherche ou une autre catégorie.</p>
+                </div>
+            </section>
+            
+            <!-- Bannière AdSense Inférieure -->
+            <div class="ad-container">
+                <!-- Remplacer par votre code AdSense réel -->
+                <div class="ad-placeholder">
+                    <p>Publicité Google AdSense</p>
+                </div>
+            </div>
+        </main>
+
+        <footer>
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <h2>ZoldGaming</h2>
+                    <p>© 2025 ZoldGaming. Tous droits réservés.</p>
+                </div>
+                <div class="footer-links">
+                    <h3>Liens utiles</h3>
+                    <ul>
+                        <li><a href="../index.html">Accueil</a></li>
+                        <li><a href="index.html">Jeux</a></li>
+                        <li><a href="../boutique.html">Boutique</a></li>
+                        <li><a href="../mentions-legales.html">Mentions légales</a></li>
+                    </ul>
+                </div>
+                <div class="footer-social">
+                    <h3>Nous suivre</h3>
+                    <div class="social-icons">
+                        <a href="#" class="social-icon">📱</a>
+                        <a href="#" class="social-icon">📘</a>
+                        <a href="#" class="social-icon">📸</a>
+                        <a href="#" class="social-icon">🐦</a>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <script src="../js/main.js"></script>
+    <script src="../js/auth.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Fonctionnalité de recherche et filtrage
+            const searchInput = document.getElementById('search-input');
+            const searchBtn = document.getElementById('search-btn');
+            const categoryBtns = document.querySelectorAll('.category-btn');
+            const gamesList = document.getElementById('games-list');
+            const gameCards = document.querySelectorAll('.game-card');
+            const noGamesMessage = document.getElementById('no-games');
+            
+            let activeCategory = 'all';
+            let searchTerm = '';
+            
+            // Fonction pour filtrer les jeux
+            function filterGames() {
+                let visibleGames = 0;
+                
+                gameCards.forEach(card => {
+                    const title = card.querySelector('h3').textContent.toLowerCase();
+                    const description = card.querySelector('p').textContent.toLowerCase();
+                    const categories = card.getAttribute('data-categories');
+                    
+                    // Vérifier si le jeu correspond aux critères de recherche et de catégorie
+                    const matchesSearch = searchTerm === '' || 
+                                          title.includes(searchTerm) || 
+                                          description.includes(searchTerm);
+                                          
+                    const matchesCategory = activeCategory === 'all' || 
+                                           categories.includes(activeCategory);
+                    
+                    if (matchesSearch && matchesCategory) {
+                        card.style.display = 'block';
+                        visibleGames++;
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+                
+                // Afficher ou masquer le message "Aucun jeu trouvé"
+                if (visibleGames === 0) {
+                    noGamesMessage.style.display = 'block';
+                    gamesList.style.display = 'none';
+                } else {
+                    noGamesMessage.style.display = 'none';
+                    gamesList.style.display = 'grid';
+                }
+            }
+            
+            // Événement de recherche
+            searchBtn.addEventListener('click', function() {
+                searchTerm = searchInput.value.toLowerCase().trim();
+                filterGames();
+            });
+            
+            searchInput.addEventListener('keyup', function(event) {
+                if (event.key === 'Enter') {
+                    searchTerm = searchInput.value.toLowerCase().trim();
+                    filterGames();
+                }
+            });
+            
+            // Événement de filtrage par catégorie
+            categoryBtns.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    // Mettre à jour le bouton actif
+                    categoryBtns.forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    // Mettre à jour la catégorie active
+                    activeCategory = this.getAttribute('data-category');
+                    
+                    // Filtrer les jeux
+                    filterGames();
+                });
+            });
+        });
+    </script>
+</body>
+</html>

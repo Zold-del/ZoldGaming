@@ -1,0 +1,692 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mon Profil - ZoldGaming</title>
+    <meta name="description" content="Gérez votre profil ZoldGaming, consultez vos statistiques de jeu, vos objets débloqués et personnalisez votre avatar.">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/retro.css">
+    <!-- Google AdSense - À remplacer par votre propre code quand vous aurez un compte AdSense -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-VOTRE-ID-ADSENSE" crossorigin="anonymous"></script>
+    <style>
+        .profile-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .profile-header {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2rem;
+            align-items: center;
+            background-color: var(--card-bg);
+            padding: 2rem;
+            border-radius: 8px;
+            margin-bottom: 2rem;
+            border: 1px solid var(--primary);
+        }
+        
+        .avatar-container {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 3px solid var(--primary);
+            box-shadow: 0 0 15px rgba(255, 0, 255, 0.4);
+        }
+        
+        .avatar-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .profile-info {
+            flex: 1;
+            min-width: 200px;
+        }
+        
+        .profile-username {
+            font-size: 1.5rem;
+            color: var(--primary);
+            text-shadow: var(--glow-primary);
+            margin-bottom: 1rem;
+        }
+        
+        .profile-stats {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .stat-item {
+            background-color: rgba(0, 0, 0, 0.3);
+            padding: 0.8rem;
+            border-radius: 4px;
+            min-width: 100px;
+            text-align: center;
+        }
+        
+        .stat-value {
+            font-size: 1.2rem;
+            color: var(--secondary);
+            margin-bottom: 0.3rem;
+        }
+        
+        .stat-label {
+            font-size: 0.6rem;
+            color: var(--text-dim);
+        }
+        
+        .profile-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+        
+        .login-message {
+            background-color: var(--card-bg);
+            text-align: center;
+            padding: 2rem;
+            border-radius: 8px;
+            margin-bottom: 2rem;
+        }
+        
+        .login-message p {
+            margin-bottom: 1.5rem;
+        }
+        
+        .profile-section {
+            background-color: var(--card-bg);
+            padding: 2rem;
+            border-radius: 8px;
+            margin-bottom: 2rem;
+            border: 1px solid var(--primary-dark);
+        }
+        
+        .section-title {
+            color: var(--secondary);
+            font-size: 1.2rem;
+            margin-bottom: 1.5rem;
+            border-bottom: 1px solid var(--primary-dark);
+            padding-bottom: 0.5rem;
+        }
+        
+        .games-history {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 1.5rem;
+        }
+        
+        .game-card-small {
+            background-color: rgba(0, 0, 0, 0.3);
+            border-radius: 8px;
+            overflow: hidden;
+            border: 1px solid var(--primary-dark);
+            transition: all 0.3s;
+        }
+        
+        .game-card-small:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3), 0 0 8px var(--primary);
+        }
+        
+        .game-thumbnail-small {
+            height: 100px;
+            background-color: #000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .game-thumbnail-small img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: cover;
+        }
+        
+        .game-info-small {
+            padding: 1rem;
+        }
+        
+        .game-title-small {
+            font-size: 0.8rem;
+            color: var(--secondary);
+            margin-bottom: 0.5rem;
+        }
+        
+        .game-stats {
+            font-size: 0.6rem;
+            color: var(--text-dim);
+        }
+        
+        .game-stats p {
+            margin-bottom: 0.3rem;
+        }
+        
+        .inventory-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+            gap: 1rem;
+        }
+        
+        .inventory-item {
+            background-color: rgba(0, 0, 0, 0.3);
+            border-radius: 4px;
+            padding: 1rem;
+            text-align: center;
+            border: 1px solid var(--primary-dark);
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+        
+        .inventory-item:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 10px rgba(255, 0, 255, 0.3);
+        }
+        
+        .inventory-item.selected {
+            border-color: var(--accent2);
+            box-shadow: 0 0 15px rgba(0, 255, 0, 0.5);
+        }
+        
+        .inventory-icon {
+            width: 50px;
+            height: 50px;
+            margin: 0 auto 0.5rem;
+        }
+        
+        .inventory-icon img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+        
+        .inventory-name {
+            font-size: 0.6rem;
+            color: var(--text);
+        }
+        
+        .settings-form {
+            display: grid;
+            gap: 1.5rem;
+        }
+        
+        .form-group {
+            margin-bottom: 0;
+        }
+        
+        .toggle-container {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        .toggle-label {
+            font-size: 0.8rem;
+            color: var(--text);
+        }
+        
+        .toggle-switch {
+            position: relative;
+            display: inline-block;
+            width: 50px;
+            height: 24px;
+        }
+        
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        
+        .toggle-slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.5);
+            transition: .4s;
+            border-radius: 24px;
+            border: 1px solid var(--primary-dark);
+        }
+        
+        .toggle-slider:before {
+            position: absolute;
+            content: "";
+            height: 16px;
+            width: 16px;
+            left: 4px;
+            bottom: 3px;
+            background-color: var(--text);
+            transition: .4s;
+            border-radius: 50%;
+        }
+        
+        input:checked + .toggle-slider {
+            background-color: var(--primary);
+        }
+        
+        input:checked + .toggle-slider:before {
+            transform: translateX(26px);
+            background-color: var(--bg-dark);
+        }
+        
+        .empty-message {
+            text-align: center;
+            padding: 2rem;
+            color: var(--text-dim);
+            font-size: 0.8rem;
+            background-color: rgba(0, 0, 0, 0.2);
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="main-header">
+            <div class="logo-container">
+                <h1 class="logo">ZoldGaming</h1>
+                <span class="logo-blink">_</span>
+            </div>
+            <nav class="main-nav">
+                <ul>
+                    <li><a href="index.html">Accueil</a></li>
+                    <li><a href="jeux/index.html">Jeux</a></li>
+                    <li><a href="boutique.html">Boutique</a></li>
+                    <li><a href="profil.html" id="nav-profil" class="active">Profil</a></li>
+                    <li><a href="connexion.html" id="nav-connexion">Connexion</a></li>
+                </ul>
+            </nav>            <button class="hamburger" id="hamburger" title="Menu de navigation">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </header>
+
+        <main>
+            <!-- Bannière AdSense Supérieure -->
+            <div class="ad-container">
+                <!-- Remplacer par votre code AdSense réel -->
+                <div class="ad-placeholder">
+                    <p>Publicité Google AdSense</p>
+                </div>
+            </div>
+            
+            <section class="profile-section">
+                <!-- Message si non connecté -->
+                <div id="login-message" class="login-message">
+                    <p>Connectez-vous pour accéder à votre profil, vos statistiques et vos objets.</p>
+                    <a href="connexion.html" class="btn btn-primary">Se connecter</a>
+                </div>
+                
+                <!-- Contenu du profil (visible si connecté) -->
+                <div id="profile-content" class="profile-container" style="display: none;">
+                    <!-- En-tête du profil -->
+                    <div class="profile-header">
+                        <div class="avatar-container">
+                            <img id="user-avatar" src="images/avatars/default.png" alt="Avatar utilisateur" class="avatar-image">
+                        </div>
+                        <div class="profile-info">
+                            <h2 class="profile-username" id="user-username">Nom d'utilisateur</h2>
+                            <div class="profile-stats">
+                                <div class="stat-item">
+                                    <div class="stat-value" id="user-coins">0</div>
+                                    <div class="stat-label">Pièces</div>
+                                </div>
+                                <div class="stat-item">
+                                    <div class="stat-value" id="games-played">0</div>
+                                    <div class="stat-label">Parties jouées</div>
+                                </div>
+                                <div class="stat-item">
+                                    <div class="stat-value" id="highest-score">0</div>
+                                    <div class="stat-label">Meilleur score</div>
+                                </div>
+                            </div>
+                            <div class="profile-actions">
+                                <a href="boutique.html" class="btn btn-secondary">Aller à la boutique</a>
+                                <button id="logout-btn" class="btn btn-primary">Déconnexion</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Historique des jeux -->
+                    <div class="profile-section">
+                        <h3 class="section-title">Historique des jeux</h3>
+                        <div id="games-history" class="games-history">
+                            <!-- Les jeux joués seront ajoutés dynamiquement ici -->
+                            <div class="empty-message" id="empty-games">
+                                Vous n'avez pas encore joué à un jeu. 
+                                <br><br>
+                                <a href="jeux/index.html" class="btn btn-small btn-primary">Découvrir nos jeux</a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Inventaire -->
+                    <div class="profile-section">
+                        <h3 class="section-title">Mon inventaire</h3>
+                        <div id="user-inventory" class="inventory-grid">
+                            <!-- Les objets de l'inventaire seront ajoutés dynamiquement ici -->
+                            <div class="empty-message" id="empty-inventory">
+                                Votre inventaire est vide.
+                                <br><br>
+                                <a href="boutique.html" class="btn btn-small btn-primary">Aller à la boutique</a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Paramètres -->
+                    <div class="profile-section">
+                        <h3 class="section-title">Paramètres</h3>
+                        <div class="settings-form">
+                            <div class="form-group">
+                                <div class="toggle-container">
+                                    <span class="toggle-label">Effets sonores</span>
+                                    <label class="toggle-switch">
+                                        <input type="checkbox" id="sfx-toggle" checked>
+                                        <span class="toggle-slider"></span>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="toggle-container">
+                                    <span class="toggle-label">Musique</span>
+                                    <label class="toggle-switch">
+                                        <input type="checkbox" id="music-toggle" checked>
+                                        <span class="toggle-slider"></span>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <button id="save-settings" class="btn btn-primary">Enregistrer les paramètres</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Bannière AdSense Inférieure -->
+            <div class="ad-container">
+                <!-- Remplacer par votre code AdSense réel -->
+                <div class="ad-placeholder">
+                    <p>Publicité Google AdSense</p>
+                </div>
+            </div>
+        </main>
+
+        <footer>
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <h2>ZoldGaming</h2>
+                    <p>© 2025 ZoldGaming. Tous droits réservés.</p>
+                </div>
+                <div class="footer-links">
+                    <h3>Liens utiles</h3>
+                    <ul>
+                        <li><a href="index.html">Accueil</a></li>
+                        <li><a href="jeux/index.html">Jeux</a></li>
+                        <li><a href="boutique.html">Boutique</a></li>
+                        <li><a href="mentions-legales.html">Mentions légales</a></li>
+                    </ul>
+                </div>
+                <div class="footer-social">
+                    <h3>Nous suivre</h3>
+                    <div class="social-icons">
+                        <a href="#" class="social-icon">📱</a>
+                        <a href="#" class="social-icon">📘</a>
+                        <a href="#" class="social-icon">📸</a>
+                        <a href="#" class="social-icon">🐦</a>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <script src="js/main.js"></script>
+    <script src="js/auth.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Vérifier si l'utilisateur est connecté
+            const currentUser = getCurrentUser();
+            const loginMessage = document.getElementById('login-message');
+            const profileContent = document.getElementById('profile-content');
+            
+            // Éléments UI
+            const userUsername = document.getElementById('user-username');
+            const userAvatar = document.getElementById('user-avatar');
+            const userCoins = document.getElementById('user-coins');
+            const gamesPlayed = document.getElementById('games-played');
+            const highestScore = document.getElementById('highest-score');
+            const gamesHistory = document.getElementById('games-history');
+            const emptyGames = document.getElementById('empty-games');
+            const userInventory = document.getElementById('user-inventory');
+            const emptyInventory = document.getElementById('empty-inventory');
+            const logoutBtn = document.getElementById('logout-btn');
+            const sfxToggle = document.getElementById('sfx-toggle');
+            const musicToggle = document.getElementById('music-toggle');
+            const saveSettingsBtn = document.getElementById('save-settings');
+            
+            // Données des jeux disponibles (à déplacer dans un fichier séparé en production)
+            const gamesData = {
+                'snake': {
+                    name: 'Snake Retro',
+                    image: 'images/placeholder-game1.png',
+                    url: 'jeux/snake.html'
+                },
+                'tetris': {
+                    name: 'Tetris Neon',
+                    image: 'images/placeholder-game2.png',
+                    url: 'jeux/tetris.html'
+                },
+                'pong': {
+                    name: 'Pong Arcade',
+                    image: 'images/placeholder-game3.png',
+                    url: 'jeux/pong.html'
+                }
+            };
+            
+            // Données des objets disponibles (à déplacer dans un fichier séparé en production)
+            const itemsData = {
+                'avatar1': {
+                    name: 'Pixel Ninja',
+                    type: 'avatar',
+                    image: 'images/avatars/avatar1.png'
+                },
+                'avatar2': {
+                    name: 'Robot Rétro',
+                    type: 'avatar',
+                    image: 'images/avatars/avatar2.png'
+                },
+                'avatar3': {
+                    name: 'Dragon Arcade',
+                    type: 'avatar',
+                    image: 'images/avatars/avatar3.png'
+                },
+                'game1': {
+                    name: 'CyberBattle 2025',
+                    type: 'game',
+                    image: 'images/placeholder-game-premium.png'
+                },
+                'game2': {
+                    name: 'Pixel Quest',
+                    type: 'game',
+                    image: 'images/placeholder-game-premium2.png'
+                },
+                'effect1': {
+                    name: 'Aura Néon',
+                    type: 'effect',
+                    image: 'images/effects/effect1.png'
+                },
+                'effect2': {
+                    name: 'Glitch Animation',
+                    type: 'effect',
+                    image: 'images/effects/effect2.png'
+                }
+            };
+            
+            // Afficher le contenu approprié selon l'état de connexion
+            if (currentUser) {
+                loginMessage.style.display = 'none';
+                profileContent.style.display = 'block';
+                
+                // Mettre à jour les informations utilisateur
+                userUsername.textContent = currentUser.username;
+                userAvatar.src = currentUser.avatar || 'images/avatars/default.png';
+                userCoins.textContent = currentUser.coins || 0;
+                
+                // Calculer les statistiques de jeu
+                let totalGamesPlayed = 0;
+                let maxScore = 0;
+                
+                if (currentUser.games) {
+                    // Vider l'élément d'historique des jeux
+                    while (gamesHistory.firstChild && gamesHistory.firstChild !== emptyGames) {
+                        gamesHistory.removeChild(gamesHistory.firstChild);
+                    }
+                    
+                    const gameEntries = Object.entries(currentUser.games);
+                    
+                    if (gameEntries.length > 0) {
+                        emptyGames.style.display = 'none';
+                        
+                        // Parcourir les jeux joués
+                        gameEntries.forEach(([gameId, gameStats]) => {
+                            totalGamesPlayed += gameStats.timesPlayed || 0;
+                            
+                            if (gameStats.highScore > maxScore) {
+                                maxScore = gameStats.highScore;
+                            }
+                            
+                            // Créer une carte de jeu pour l'historique
+                            if (gamesData[gameId]) {
+                                const gameCard = document.createElement('div');
+                                gameCard.className = 'game-card-small';
+                                
+                                gameCard.innerHTML = `
+                                    <div class="game-thumbnail-small">
+                                        <img src="${gamesData[gameId].image}" alt="${gamesData[gameId].name}">
+                                    </div>
+                                    <div class="game-info-small">
+                                        <h4 class="game-title-small">${gamesData[gameId].name}</h4>
+                                        <div class="game-stats">
+                                            <p>Score: <span>${gameStats.highScore || 0}</span></p>
+                                            <p>Parties: <span>${gameStats.timesPlayed || 0}</span></p>
+                                            <p>Dernière partie: <span>${
+                                                gameStats.lastPlayed ? new Date(gameStats.lastPlayed).toLocaleDateString() : 'Jamais'
+                                            }</span></p>
+                                        </div>
+                                    </div>
+                                `;
+                                
+                                // Ajouter un événement pour rediriger vers le jeu
+                                gameCard.addEventListener('click', function() {
+                                    window.location.href = gamesData[gameId].url;
+                                });
+                                
+                                gamesHistory.insertBefore(gameCard, emptyGames);
+                            }
+                        });
+                    } else {
+                        emptyGames.style.display = 'block';
+                    }
+                } else {
+                    emptyGames.style.display = 'block';
+                }
+                
+                // Mettre à jour les statistiques
+                gamesPlayed.textContent = totalGamesPlayed;
+                highestScore.textContent = maxScore;
+                
+                // Afficher l'inventaire
+                if (currentUser.inventory && currentUser.inventory.length > 0) {
+                    // Vider l'inventaire
+                    while (userInventory.firstChild && userInventory.firstChild !== emptyInventory) {
+                        userInventory.removeChild(userInventory.firstChild);
+                    }
+                    
+                    emptyInventory.style.display = 'none';
+                    
+                    // Parcourir les objets dans l'inventaire
+                    currentUser.inventory.forEach(itemId => {
+                        if (itemsData[itemId]) {
+                            const item = itemsData[itemId];
+                            
+                            const itemElement = document.createElement('div');
+                            itemElement.className = 'inventory-item';
+                            if (item.type === 'avatar' && currentUser.avatar === item.image) {
+                                itemElement.classList.add('selected');
+                            }
+                            
+                            itemElement.innerHTML = `
+                                <div class="inventory-icon">
+                                    <img src="${item.image}" alt="${item.name}">
+                                </div>
+                                <div class="inventory-name">${item.name}</div>
+                            `;
+                            
+                            // Ajouter un événement pour les avatars (pour les sélectionner)
+                            if (item.type === 'avatar') {
+                                itemElement.addEventListener('click', function() {
+                                    // Mettre à jour l'avatar de l'utilisateur
+                                    updateUser({
+                                        avatar: item.image
+                                    });
+                                    
+                                    // Mettre à jour l'affichage
+                                    userAvatar.src = item.image;
+                                    
+                                    // Mettre à jour la sélection
+                                    document.querySelectorAll('.inventory-item').forEach(el => {
+                                        el.classList.remove('selected');
+                                    });
+                                    this.classList.add('selected');
+                                    
+                                    // Afficher un message de succès
+                                    showNotification('Avatar mis à jour!', 'success');
+                                });
+                            }
+                            
+                            userInventory.insertBefore(itemElement, emptyInventory);
+                        }
+                    });
+                } else {
+                    emptyInventory.style.display = 'block';
+                }
+                
+                // Paramètres
+                if (currentUser.settings) {
+                    sfxToggle.checked = currentUser.settings.sfx !== false;
+                    musicToggle.checked = currentUser.settings.music !== false;
+                }
+                
+                // Événement de déconnexion
+                logoutBtn.addEventListener('click', function() {
+                    logout();
+                    window.location.reload();
+                });
+                
+                // Événement de sauvegarde des paramètres
+                saveSettingsBtn.addEventListener('click', function() {
+                    updateUser({
+                        settings: {
+                            sfx: sfxToggle.checked,
+                            music: musicToggle.checked
+                        }
+                    });
+                    
+                    showNotification('Paramètres enregistrés!', 'success');
+                });
+            } else {
+                loginMessage.style.display = 'block';
+                profileContent.style.display = 'none';
+            }
+        });
+    </script>
+</body>
+</html>

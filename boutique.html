@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Boutique - ZoldGaming</title>
+    <meta name="description" content="Boutique ZoldGaming - Dépensez vos pièces de jeu pour débloquer des objets exclusifs, des skins et des fonctionnalités spéciales.">    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/retro.css">
+    <link rel="stylesheet" href="css/boutique.css">
+    <!-- Google AdSense - À remplacer par votre propre code quand vous aurez un compte AdSense -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-VOTRE-ID-ADSENSE" crossorigin="anonymous"></script>
+        
+        .user-coins {
+            background-color: var(--card-bg);
+            padding: 1rem;
+            border-radius: 8px;
+            text-align: center;
+            margin-bottom: 2rem;
+            border: 1px solid var(--primary);
+        }
+        
+        .coins-value {
+            font-size: 1.5rem;
+            color: var(--accent1);
+            text-shadow: 0 0 5px var(--accent1);
+        }
+        
+        .items-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+        
+        .shop-item {
+            background-color: var(--card-bg);
+            border-radius: 8px;
+            overflow: hidden;
+            border: 1px solid var(--primary-dark);
+            transition: all 0.3s;
+        }
+        
+        .shop-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4), 0 0 15px var(--primary);
+        }
+        
+        .item-image {
+            height: 150px;
+            background-color: #000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .item-image img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+        }
+        
+        .item-details {
+            padding: 1.5rem;
+        }
+        
+        .item-name {
+            color: var(--secondary);
+            font-size: 1rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .item-description {
+            color: var(--text-dim);
+            font-size: 0.7rem;
+            margin-bottom: 1rem;
+        }
+        
+        .item-price {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        
+        .price-value {
+            color: var(--accent1);
+            font-size: 0.9rem;
+            margin-left: 0.5rem;
+        }
+        
+        .item-actions {
+            display: flex;
+            justify-content: space-between;
+        }
+        
+        .purchase-btn {
+            width: 100%;
+        }
+        
+        .shop-category {
+            margin-bottom: 3rem;
+        }
+        
+        .shop-category-title {
+            margin-bottom: 1.5rem;
+            color: var(--primary);
+            text-shadow: var(--glow-primary);
+            border-bottom: 1px solid var(--primary-dark);
+            padding-bottom: 0.5rem;
+        }
+        
+        .purchase-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .modal-content {
+            background-color: var(--card-bg);
+            border-radius: 8px;
+            border: 2px solid var(--primary);
+            max-width: 400px;
+            width: 90%;
+            padding: 2rem;
+            text-align: center;
+            box-shadow: 0 0 30px rgba(255, 0, 255, 0.5);
+        }
+        
+        .modal-title {
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+        }
+        
+        .modal-message {
+            margin-bottom: 2rem;
+            font-size: 0.8rem;
+        }
+        
+        .modal-actions {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+        }
+        
+        /* Badge pour objets spéciaux */
+        .item-badge {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: var(--accent2);
+            color: var(--bg-dark);
+            font-size: 0.6rem;
+            padding: 0.3rem 0.5rem;
+            border-radius: 4px;
+            z-index: 1;
+        }
+        
+        .login-message {
+            background-color: var(--card-bg);
+            text-align: center;
+            padding: 2rem;
+            border-radius: 8px;
+            margin-bottom: 2rem;
+        }
+        
+        .login-message p {
+            margin-bottom: 1.5rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="main-header">
+            <div class="logo-container">
+                <h1 class="logo">ZoldGaming</h1>
+                <span class="logo-blink">_</span>
+            </div>
+            <nav class="main-nav">
+                <ul>
+                    <li><a href="index.html">Accueil</a></li>
+                    <li><a href="jeux/index.html">Jeux</a></li>
+                    <li><a href="boutique.html" class="active">Boutique</a></li>
+                    <li><a href="profil.html" id="nav-profil">Profil</a></li>
+                    <li><a href="connexion.html" id="nav-connexion">Connexion</a></li>
+                </ul>
+            </nav>            <button class="hamburger" id="hamburger" title="Menu de navigation">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </header>
+
+        <main>
+            <!-- Bannière AdSense Supérieure -->
+            <div class="ad-container">
+                <!-- Remplacer par votre code AdSense réel -->
+                <div class="ad-placeholder">
+                    <p>Publicité Google AdSense</p>
+                </div>
+            </div>
+            
+            <section class="shop-section">
+                <h2 class="section-title glitch" data-text="BOUTIQUE">BOUTIQUE</h2>
+                
+                <div class="shop-container">
+                    <!-- Message si non connecté -->
+                    <div id="login-message" class="login-message">
+                        <p>Connectez-vous pour accéder à la boutique et dépenser vos pièces de jeu.</p>
+                        <a href="connexion.html" class="btn btn-primary">Se connecter</a>
+                    </div>
+                      <!-- Contenu de la boutique (visible si connecté) -->
+                    <div id="shop-content" class="shop-content-hidden">
+                        <!-- Solde des pièces -->
+                        <div class="user-coins">
+                            <p>Votre solde:</p>
+                            <p class="coins-value"><span id="user-coins">0</span> 🪙</p>
+                        </div>
+                        
+                        <!-- Catégorie: Avatars -->
+                        <div class="shop-category">
+                            <h3 class="shop-category-title">Avatars</h3>
+                            <div class="items-grid">
+                                <!-- Avatar 1 -->
+                                <div class="shop-item" data-id="avatar1" data-price="50">
+                                    <div class="item-image">
+                                        <img src="images/avatars/avatar1.png" alt="Avatar Pixel Ninja">
+                                    </div>
+                                    <div class="item-details">
+                                        <h4 class="item-name">Pixel Ninja</h4>
+                                        <p class="item-description">Un avatar ninja au style pixel art pour votre profil.</p>
+                                        <div class="item-price">
+                                            <span>Prix:</span>
+                                            <span class="price-value">50 🪙</span>
+                                        </div>
+                                        <div class="item-actions">
+                                            <button class="btn btn-primary purchase-btn">Acheter</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <!-- Avatar 2 -->
+                                <div class="shop-item" data-id="avatar2" data-price="50">
+                                    <div class="item-image">
+                                        <img src="images/avatars/avatar2.png" alt="Avatar Robot Rétro">
+                                    </div>
+                                    <div class="item-details">
+                                        <h4 class="item-name">Robot Rétro</h4>
+                                        <p class="item-description">Un avatar robot au design rétro-futuriste.</p>
+                                        <div class="item-price">
+                                            <span>Prix:</span>
+                                            <span class="price-value">50 🪙</span>
+                                        </div>
+                                        <div class="item-actions">
+                                            <button class="btn btn-primary purchase-btn">Acheter</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <!-- Avatar 3 -->
+                                <div class="shop-item" data-id="avatar3" data-price="100">
+                                    <div class="item-image">
+                                        <div class="item-badge">Premium</div>
+                                        <img src="images/avatars/avatar3.png" alt="Avatar Dragon Arcade">
+                                    </div>
+                                    <div class="item-details">
+                                        <h4 class="item-name">Dragon Arcade</h4>
+                                        <p class="item-description">Un dragon pixelisé inspiré des jeux d'arcade classiques.</p>
+                                        <div class="item-price">
+                                            <span>Prix:</span>
+                                            <span class="price-value">100 🪙</span>
+                                        </div>
+                                        <div class="item-actions">
+                                            <button class="btn btn-primary purchase-btn">Acheter</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Catégorie: Jeux Premium -->
+                        <div class="shop-category">
+                            <h3 class="shop-category-title">Jeux Premium</h3>
+                            <div class="items-grid">
+                                <!-- Jeu Premium 1 -->
+                                <div class="shop-item" data-id="game1" data-price="200">
+                                    <div class="item-image">
+                                        <div class="item-badge">Exclusif</div>
+                                        <img src="images/placeholder-game-premium.png" alt="Jeu Premium">
+                                    </div>
+                                    <div class="item-details">
+                                        <h4 class="item-name">CyberBattle 2025</h4>
+                                        <p class="item-description">Un jeu d'action/aventure cyberpunk exclusif avec plusieurs niveaux.</p>
+                                        <div class="item-price">
+                                            <span>Prix:</span>
+                                            <span class="price-value">200 🪙</span>
+                                        </div>
+                                        <div class="item-actions">
+                                            <button class="btn btn-primary purchase-btn">Acheter</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <!-- Jeu Premium 2 -->
+                                <div class="shop-item" data-id="game2" data-price="150">
+                                    <div class="item-image">
+                                        <img src="images/placeholder-game-premium2.png" alt="Jeu Premium">
+                                    </div>
+                                    <div class="item-details">
+                                        <h4 class="item-name">Pixel Quest</h4>
+                                        <p class="item-description">Un RPG au tour par tour dans un univers médiéval-fantastique.</p>
+                                        <div class="item-price">
+                                            <span>Prix:</span>
+                                            <span class="price-value">150 🪙</span>
+                                        </div>
+                                        <div class="item-actions">
+                                            <button class="btn btn-primary purchase-btn">Acheter</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Catégorie: Effets Spéciaux -->
+                        <div class="shop-category">
+                            <h3 class="shop-category-title">Effets Spéciaux</h3>
+                            <div class="items-grid">
+                                <!-- Effet 1 -->
+                                <div class="shop-item" data-id="effect1" data-price="75">
+                                    <div class="item-image">
+                                        <img src="images/effects/effect1.png" alt="Effet Néon">
+                                    </div>
+                                    <div class="item-details">
+                                        <h4 class="item-name">Aura Néon</h4>
+                                        <p class="item-description">Ajoute un effet de bordure néon à votre avatar.</p>
+                                        <div class="item-price">
+                                            <span>Prix:</span>
+                                            <span class="price-value">75 🪙</span>
+                                        </div>
+                                        <div class="item-actions">
+                                            <button class="btn btn-primary purchase-btn">Acheter</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <!-- Effet 2 -->
+                                <div class="shop-item" data-id="effect2" data-price="75">
+                                    <div class="item-image">
+                                        <img src="images/effects/effect2.png" alt="Effet Glitch">
+                                    </div>
+                                    <div class="item-details">
+                                        <h4 class="item-name">Glitch Animation</h4>
+                                        <p class="item-description">Ajoute un effet glitch à votre nom d'utilisateur.</p>
+                                        <div class="item-price">
+                                            <span>Prix:</span>
+                                            <span class="price-value">75 🪙</span>
+                                        </div>
+                                        <div class="item-actions">
+                                            <button class="btn btn-primary purchase-btn">Acheter</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Bannière AdSense Inférieure -->
+            <div class="ad-container">
+                <!-- Remplacer par votre code AdSense réel -->
+                <div class="ad-placeholder">
+                    <p>Publicité Google AdSense</p>
+                </div>
+            </div>
+        </main>
+
+        <footer>
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <h2>ZoldGaming</h2>
+                    <p>© 2025 ZoldGaming. Tous droits réservés.</p>
+                </div>
+                <div class="footer-links">
+                    <h3>Liens utiles</h3>
+                    <ul>
+                        <li><a href="index.html">Accueil</a></li>
+                        <li><a href="jeux/index.html">Jeux</a></li>
+                        <li><a href="boutique.html">Boutique</a></li>
+                        <li><a href="mentions-legales.html">Mentions légales</a></li>
+                    </ul>
+                </div>
+                <div class="footer-social">
+                    <h3>Nous suivre</h3>
+                    <div class="social-icons">
+                        <a href="#" class="social-icon">📱</a>
+                        <a href="#" class="social-icon">📘</a>
+                        <a href="#" class="social-icon">📸</a>
+                        <a href="#" class="social-icon">🐦</a>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </div>
+    
+    <!-- Modal d'achat -->
+    <div class="purchase-modal" id="purchase-modal">
+        <div class="modal-content">
+            <h3 class="modal-title">Confirmer l'achat</h3>
+            <p class="modal-message" id="modal-message">Voulez-vous acheter <span id="item-name"></span> pour <span id="item-price"></span> pièces?</p>
+            <div class="modal-actions">
+                <button class="btn btn-secondary" id="cancel-purchase">Annuler</button>
+                <button class="btn btn-primary" id="confirm-purchase">Confirmer</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/main.js"></script>
+    <script src="js/auth.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Vérifier si l'utilisateur est connecté
+            const currentUser = getCurrentUser();
+            const loginMessage = document.getElementById('login-message');
+            const shopContent = document.getElementById('shop-content');
+            const userCoinsElement = document.getElementById('user-coins');
+            
+            // Afficher le contenu approprié selon l'état de connexion
+            if (currentUser) {
+                loginMessage.style.display = 'none';
+                shopContent.style.display = 'block';
+                userCoinsElement.textContent = currentUser.coins || 0;
+            } else {
+                loginMessage.style.display = 'block';
+                shopContent.style.display = 'none';
+            }
+            
+            // Gestion des achats
+            const purchaseButtons = document.querySelectorAll('.purchase-btn');
+            const purchaseModal = document.getElementById('purchase-modal');
+            const modalItemName = document.getElementById('item-name');
+            const modalItemPrice = document.getElementById('item-price');
+            const modalMessage = document.getElementById('modal-message');
+            const cancelPurchaseButton = document.getElementById('cancel-purchase');
+            const confirmPurchaseButton = document.getElementById('confirm-purchase');
+            
+            let selectedItem = null;
+            
+            // Ouvrir la modal d'achat
+            purchaseButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const item = this.closest('.shop-item');
+                    const itemId = item.getAttribute('data-id');
+                    const itemPrice = parseInt(item.getAttribute('data-price'));
+                    const itemName = item.querySelector('.item-name').textContent;
+                    
+                    selectedItem = {
+                        id: itemId,
+                        name: itemName,
+                        price: itemPrice
+                    };
+                    
+                    // Vérifier si l'utilisateur a déjà cet objet
+                    if (currentUser && currentUser.inventory && currentUser.inventory.includes(itemId)) {
+                        modalMessage.textContent = `Vous possédez déjà "${itemName}".`;
+                        confirmPurchaseButton.style.display = 'none';
+                    } 
+                    // Vérifier si l'utilisateur a assez de pièces
+                    else if (currentUser && (currentUser.coins < itemPrice)) {
+                        modalMessage.textContent = `Vous n'avez pas assez de pièces pour acheter "${itemName}".`;
+                        confirmPurchaseButton.style.display = 'none';
+                    } 
+                    // Afficher la confirmation d'achat
+                    else {
+                        modalItemName.textContent = itemName;
+                        modalItemPrice.textContent = itemPrice;
+                        modalMessage.innerHTML = `Voulez-vous acheter <strong>${itemName}</strong> pour <strong>${itemPrice} 🪙</strong>?`;
+                        confirmPurchaseButton.style.display = 'inline-block';
+                    }
+                    
+                    purchaseModal.style.display = 'flex';
+                });
+            });
+            
+            // Fermer la modal d'achat
+            cancelPurchaseButton.addEventListener('click', function() {
+                purchaseModal.style.display = 'none';
+                selectedItem = null;
+            });
+            
+            // Confirmer l'achat
+            confirmPurchaseButton.addEventListener('click', function() {
+                if (!selectedItem || !currentUser) {
+                    purchaseModal.style.display = 'none';
+                    return;
+                }
+                
+                // Mettre à jour les pièces et l'inventaire de l'utilisateur
+                const newCoins = currentUser.coins - selectedItem.price;
+                
+                if (!currentUser.inventory) {
+                    currentUser.inventory = [];
+                }
+                
+                currentUser.inventory.push(selectedItem.id);
+                
+                // Mettre à jour les données utilisateur
+                updateUser({
+                    coins: newCoins,
+                    inventory: currentUser.inventory
+                });
+                
+                // Mettre à jour l'affichage
+                userCoinsElement.textContent = newCoins;
+                
+                // Afficher le message de succès
+                modalMessage.innerHTML = `Félicitations! Vous avez acheté <strong>${selectedItem.name}</strong>!`;
+                confirmPurchaseButton.style.display = 'none';
+                
+                // Fermer la modal après 2 secondes
+                setTimeout(() => {
+                    purchaseModal.style.display = 'none';
+                    selectedItem = null;
+                }, 2000);
+            });
+            
+            // Fermer la modal si on clique à l'extérieur
+            purchaseModal.addEventListener('click', function(event) {
+                if (event.target === purchaseModal) {
+                    purchaseModal.style.display = 'none';
+                    selectedItem = null;
+                }
+            });
+        });
+    </script>
+</body>
+</html>

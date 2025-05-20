@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Connexion - ZoldGaming</title>
+    <meta name="description" content="Connectez-vous à votre compte ZoldGaming pour accéder à vos jeux préférés, votre profil et vos statistiques.">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/retro.css">
+    <!-- Google AdSense - À remplacer par votre propre code quand vous aurez un compte AdSense -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-VOTRE-ID-ADSENSE" crossorigin="anonymous"></script>
+</head>
+<body>
+    <div class="container">
+        <header class="main-header">
+            <div class="logo-container">
+                <h1 class="logo">ZoldGaming</h1>
+                <span class="logo-blink">_</span>
+            </div>
+            <nav class="main-nav">
+                <ul>
+                    <li><a href="index.html">Accueil</a></li>
+                    <li><a href="jeux/index.html">Jeux</a></li>
+                    <li><a href="boutique.html">Boutique</a></li>
+                    <li><a href="profil.html" id="nav-profil">Profil</a></li>
+                    <li><a href="connexion.html" id="nav-connexion" class="active">Connexion</a></li>
+                </ul>
+            </nav>            <button class="hamburger" id="hamburger" title="Menu de navigation">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </header>
+
+        <main>
+            <section class="auth-section">
+                <div class="auth-container">
+                    <div class="auth-tabs">
+                        <button class="auth-tab active" data-tab="login">Connexion</button>
+                        <button class="auth-tab" data-tab="register">Inscription</button>
+                    </div>
+                    
+                    <div class="auth-content">
+                        <!-- Formulaire de connexion -->
+                        <div class="auth-form active" id="login-form">
+                            <h2 class="glitch" data-text="CONNEXION">CONNEXION</h2>
+                            <div class="form-group">
+                                <label for="login-username">Nom d'utilisateur</label>
+                                <input type="text" id="login-username" name="username" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="login-password">Mot de passe</label>
+                                <input type="password" id="login-password" name="password" required>
+                            </div>
+                            <div class="form-group">
+                                <button type="button" id="login-button" class="btn btn-primary">Se connecter</button>
+                            </div>
+                            <div class="auth-message" id="login-message"></div>
+                        </div>
+                        
+                        <!-- Formulaire d'inscription -->
+                        <div class="auth-form" id="register-form">
+                            <h2 class="glitch" data-text="INSCRIPTION">INSCRIPTION</h2>
+                            <div class="form-group">
+                                <label for="register-username">Nom d'utilisateur</label>
+                                <input type="text" id="register-username" name="username" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="register-password">Mot de passe</label>
+                                <input type="password" id="register-password" name="password" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="register-confirm-password">Confirmer le mot de passe</label>
+                                <input type="password" id="register-confirm-password" name="confirm-password" required>
+                            </div>
+                            <div class="form-group">
+                                <button type="button" id="register-button" class="btn btn-primary">S'inscrire</button>
+                            </div>
+                            <div class="auth-message" id="register-message"></div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Bannière AdSense -->
+            <div class="ad-container">
+                <!-- Remplacer par votre code AdSense réel -->
+                <div class="ad-placeholder">
+                    <p>Publicité Google AdSense</p>
+                </div>
+            </div>
+        </main>
+
+        <footer>
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <h2>ZoldGaming</h2>
+                    <p>© 2025 ZoldGaming. Tous droits réservés.</p>
+                </div>
+                <div class="footer-links">
+                    <h3>Liens utiles</h3>
+                    <ul>
+                        <li><a href="index.html">Accueil</a></li>
+                        <li><a href="jeux/index.html">Jeux</a></li>
+                        <li><a href="boutique.html">Boutique</a></li>
+                        <li><a href="mentions-legales.html">Mentions légales</a></li>
+                    </ul>
+                </div>
+                <div class="footer-social">
+                    <h3>Nous suivre</h3>
+                    <div class="social-icons">
+                        <a href="#" class="social-icon">📱</a>
+                        <a href="#" class="social-icon">📘</a>
+                        <a href="#" class="social-icon">📸</a>
+                        <a href="#" class="social-icon">🐦</a>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <script src="js/main.js"></script>
+    <script src="js/auth.js"></script>
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Gestion des onglets (connexion/inscription)
+        const tabs = document.querySelectorAll('.auth-tab');
+        const forms = document.querySelectorAll('.auth-form');
+        
+        tabs.forEach(tab => {
+            tab.addEventListener('click', function() {
+                const tabId = this.getAttribute('data-tab');
+                
+                // Activer l'onglet sélectionné
+                tabs.forEach(t => t.classList.remove('active'));
+                this.classList.add('active');
+                
+                // Afficher le formulaire correspondant
+                forms.forEach(form => form.classList.remove('active'));
+                document.getElementById(tabId + '-form').classList.add('active');
+            });
+        });
+        
+        // Vérifier si l'utilisateur est déjà connecté
+        const currentUser = getCurrentUser();
+        if (currentUser) {
+            // Rediriger vers la page de profil
+            window.location.href = 'profil.html';
+        }
+        
+        // Gérer la connexion
+        const loginButton = document.getElementById('login-button');
+        const loginMessage = document.getElementById('login-message');
+        
+        loginButton.addEventListener('click', function() {
+            const username = document.getElementById('login-username').value;
+            const password = document.getElementById('login-password').value;
+            
+            if (!username || !password) {
+                loginMessage.textContent = 'Veuillez remplir tous les champs';
+                loginMessage.className = 'auth-message error';
+                return;
+            }
+            
+            const result = loginUser(username, password);
+            
+            if (result.success) {
+                loginMessage.textContent = 'Connexion réussie. Redirection...';
+                loginMessage.className = 'auth-message success';
+                
+                setTimeout(() => {
+                    window.location.href = 'index.html';
+                }, 1500);
+            } else {
+                loginMessage.textContent = result.message;
+                loginMessage.className = 'auth-message error';
+            }
+        });
+        
+        // Gérer l'inscription
+        const registerButton = document.getElementById('register-button');
+        const registerMessage = document.getElementById('register-message');
+        
+        registerButton.addEventListener('click', function() {
+            const username = document.getElementById('register-username').value;
+            const password = document.getElementById('register-password').value;
+            const confirmPassword = document.getElementById('register-confirm-password').value;
+            
+            if (!username || !password || !confirmPassword) {
+                registerMessage.textContent = 'Veuillez remplir tous les champs';
+                registerMessage.className = 'auth-message error';
+                return;
+            }
+            
+            if (password !== confirmPassword) {
+                registerMessage.textContent = 'Les mots de passe ne correspondent pas';
+                registerMessage.className = 'auth-message error';
+                return;
+            }
+            
+            if (password.length < 6) {
+                registerMessage.textContent = 'Le mot de passe doit contenir au moins 6 caractères';
+                registerMessage.className = 'auth-message error';
+                return;
+            }
+            
+            const result = registerUser(username, password);
+            
+            if (result.success) {
+                registerMessage.textContent = 'Inscription réussie. Redirection...';
+                registerMessage.className = 'auth-message success';
+                
+                setTimeout(() => {
+                    window.location.href = 'index.html';
+                }, 1500);
+            } else {
+                registerMessage.textContent = result.message;
+                registerMessage.className = 'auth-message error';
+            }
+        });
+    });
+    </script>
+</body>
+</html>

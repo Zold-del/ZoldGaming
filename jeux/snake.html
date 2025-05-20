@@ -1,0 +1,662 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Snake Retro - ZoldGaming</title>
+    <meta name="description" content="Snake Retro - Le jeu du serpent classique dans une version pixel art sur ZoldGaming. Dirigez votre serpent, mangez des pommes et établissez un nouveau record !">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/retro.css">
+    <style>
+        .game-container {
+            width: 100%;
+            max-width: 640px;
+            margin: 0 auto;
+            padding: 2rem;
+            background-color: var(--card-bg);
+            border-radius: 8px;
+            border: 2px solid var(--primary);
+            box-shadow: 0 0 20px rgba(255, 0, 255, 0.3);
+        }
+        
+        .game-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--primary-dark);
+        }
+        
+        .game-title {
+            color: var(--primary);
+            text-shadow: var(--glow-primary);
+            font-size: 1.5rem;
+            margin: 0;
+        }
+        
+        .game-score {
+            color: var(--secondary);
+            font-size: 0.8rem;
+        }
+        
+        #game-canvas {
+            background-color: #000;
+            display: block;
+            margin: 0 auto;
+            width: 100%;
+            max-width: 600px;
+            height: 400px;
+            image-rendering: pixelated;
+            border: 2px solid var(--secondary);
+            box-shadow: 0 0 10px rgba(0, 255, 255, 0.4);
+        }
+        
+        .game-controls {
+            margin-top: 1.5rem;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+        
+        .control-btn {
+            background-color: var(--card-bg);
+            border: 2px solid var(--secondary);
+            color: var(--secondary);
+            font-family: 'Press Start 2P', monospace;
+            font-size: 0.7rem;
+            padding: 0.8rem 1.2rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .control-btn:hover {
+            background-color: var(--secondary);
+            color: var(--bg-dark);
+            box-shadow: 0 0 10px rgba(0, 255, 255, 0.7);
+        }
+        
+        .mobile-controls {
+            display: none;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 0.5rem;
+            max-width: 200px;
+            margin: 1.5rem auto 0;
+        }
+        
+        .mobile-btn {
+            aspect-ratio: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+        }
+        
+        .mobile-up {
+            grid-column: 2;
+            grid-row: 1;
+        }
+        
+        .mobile-left {
+            grid-column: 1;
+            grid-row: 2;
+        }
+        
+        .mobile-right {
+            grid-column: 3;
+            grid-row: 2;
+        }
+        
+        .mobile-down {
+            grid-column: 2;
+            grid-row: 3;
+        }
+        
+        .game-info {
+            margin-top: 2rem;
+            padding: 1rem;
+            background-color: rgba(0, 0, 0, 0.3);
+            border-radius: 4px;
+        }
+        
+        .game-info h3 {
+            color: var(--secondary);
+            font-size: 1rem;
+            margin-bottom: 1rem;
+        }
+        
+        .game-info p {
+            font-size: 0.7rem;
+            color: var(--text-dim);
+            margin-bottom: 0.5rem;
+        }
+        
+        .game-over {
+            display: none;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: rgba(0, 0, 0, 0.8);
+            border: 2px solid var(--primary);
+            padding: 2rem;
+            text-align: center;
+            z-index: 100;
+            border-radius: 8px;
+            box-shadow: 0 0 30px rgba(255, 0, 255, 0.5);
+        }
+        
+        .game-over h2 {
+            color: var(--primary);
+            text-shadow: var(--glow-primary);
+            margin-bottom: 1.5rem;
+        }
+        
+        .game-over p {
+            margin-bottom: 2rem;
+        }
+        
+        @media screen and (max-width: 768px) {
+            .game-controls {
+                display: none;
+            }
+            
+            .mobile-controls {
+                display: grid;
+            }
+        }
+    </style>
+    <!-- Google AdSense - À remplacer par votre propre code quand vous aurez un compte AdSense -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-VOTRE-ID-ADSENSE" crossorigin="anonymous"></script>
+</head>
+<body>
+    <div class="container">
+        <header class="main-header">
+            <div class="logo-container">
+                <h1 class="logo">ZoldGaming</h1>
+                <span class="logo-blink">_</span>
+            </div>
+            <nav class="main-nav">
+                <ul>
+                    <li><a href="../index.html">Accueil</a></li>
+                    <li><a href="../jeux/index.html" class="active">Jeux</a></li>
+                    <li><a href="../boutique.html">Boutique</a></li>
+                    <li><a href="../profil.html" id="nav-profil">Profil</a></li>
+                    <li><a href="../connexion.html" id="nav-connexion">Connexion</a></li>
+                </ul>
+            </nav>            <button class="hamburger" id="hamburger" title="Menu de navigation">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </header>
+
+        <main>
+            <!-- Bannière AdSense Supérieure -->
+            <div class="ad-container">
+                <!-- Remplacer par votre code AdSense réel -->
+                <div class="ad-placeholder">
+                    <p>Publicité Google AdSense</p>
+                </div>
+            </div>
+            
+            <section class="game-section">
+                <div class="game-container">
+                    <div class="game-header">
+                        <h2 class="game-title">Snake Retro</h2>
+                        <div class="game-score">Score: <span id="score">0</span></div>
+                    </div>
+                    
+                    <div style="position: relative;">
+                        <canvas id="game-canvas" width="300" height="300"></canvas>
+                        
+                        <div id="game-over" class="game-over">
+                            <h2>Game Over</h2>
+                            <p>Score final: <span id="final-score">0</span></p>
+                            <button id="restart-btn" class="btn btn-primary">Rejouer</button>
+                        </div>
+                    </div>
+                    
+                    <div class="game-controls">
+                        <button class="control-btn" id="start-btn">Démarrer</button>
+                        <button class="control-btn" id="pause-btn">Pause</button>
+                        <button class="control-btn" id="restart-game-btn">Recommencer</button>
+                    </div>
+                    
+                    <div class="mobile-controls">
+                        <button class="control-btn mobile-btn mobile-up" id="up-btn">⬆️</button>
+                        <button class="control-btn mobile-btn mobile-left" id="left-btn">⬅️</button>
+                        <button class="control-btn mobile-btn mobile-right" id="right-btn">➡️</button>
+                        <button class="control-btn mobile-btn mobile-down" id="down-btn">⬇️</button>
+                    </div>
+                    
+                    <div class="game-info">
+                        <h3>Comment jouer</h3>
+                        <p>• Utilisez les touches fléchées du clavier pour diriger le serpent.</p>
+                        <p>• Sur mobile, utilisez les boutons directionnels à l'écran.</p>
+                        <p>• Mangez les pommes (carrés rouges) pour grandir et marquer des points.</p>
+                        <p>• Évitez de toucher les murs ou votre propre corps.</p>
+                        <p>• Plus vous mangez de pommes, plus le jeu s'accélère.</p>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Bannière AdSense Inférieure -->
+            <div class="ad-container">
+                <!-- Remplacer par votre code AdSense réel -->
+                <div class="ad-placeholder">
+                    <p>Publicité Google AdSense</p>
+                </div>
+            </div>
+        </main>
+
+        <footer>
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <h2>ZoldGaming</h2>
+                    <p>© 2025 ZoldGaming. Tous droits réservés.</p>
+                </div>
+                <div class="footer-links">
+                    <h3>Liens utiles</h3>
+                    <ul>
+                        <li><a href="../index.html">Accueil</a></li>
+                        <li><a href="../jeux/index.html">Jeux</a></li>
+                        <li><a href="../boutique.html">Boutique</a></li>
+                        <li><a href="../mentions-legales.html">Mentions légales</a></li>
+                    </ul>
+                </div>
+                <div class="footer-social">
+                    <h3>Nous suivre</h3>
+                    <div class="social-icons">
+                        <a href="#" class="social-icon">📱</a>
+                        <a href="#" class="social-icon">📘</a>
+                        <a href="#" class="social-icon">📸</a>
+                        <a href="#" class="social-icon">🐦</a>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <script src="../js/main.js"></script>
+    <script src="../js/auth.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Récupérer le canvas et son contexte
+            const canvas = document.getElementById('game-canvas');
+            const ctx = canvas.getContext('2d');
+            
+            // Taille d'une cellule en pixels
+            const cellSize = 15;
+            
+            // Calculer le nombre de cellules horizontales et verticales
+            const gridWidth = Math.floor(canvas.width / cellSize);
+            const gridHeight = Math.floor(canvas.height / cellSize);
+            
+            // Variables du jeu
+            let snake = []; // Corps du serpent (array de positions {x, y})
+            let direction = ''; // Direction actuelle ('up', 'down', 'left', 'right')
+            let nextDirection = ''; // Prochaine direction
+            let food = null; // Position de la nourriture {x, y}
+            let score = 0; // Score actuel
+            let gameInterval = null; // Interval pour le loop du jeu
+            let gameSpeed = 150; // Vitesse initiale en ms
+            let isPaused = false; // État de pause
+            let isGameOver = false; // État de fin de partie
+            
+            // Éléments UI
+            const scoreElement = document.getElementById('score');
+            const finalScoreElement = document.getElementById('final-score');
+            const gameOverElement = document.getElementById('game-over');
+            const startButton = document.getElementById('start-btn');
+            const pauseButton = document.getElementById('pause-btn');
+            const restartButton = document.getElementById('restart-btn');
+            const restartGameButton = document.getElementById('restart-game-btn');
+            
+            // Boutons mobiles
+            const upButton = document.getElementById('up-btn');
+            const leftButton = document.getElementById('left-btn');
+            const rightButton = document.getElementById('right-btn');
+            const downButton = document.getElementById('down-btn');
+            
+            // Couleurs
+            const colors = {
+                background: '#000000',
+                snake: '#00ff00',
+                snakeHead: '#00ffaa',
+                food: '#ff0000',
+                border: '#00ffff'
+            };
+            
+            // Initialiser le jeu
+            function initGame() {
+                // Réinitialiser les variables
+                snake = [
+                    {x: Math.floor(gridWidth / 2), y: Math.floor(gridHeight / 2)}
+                ];
+                direction = '';
+                nextDirection = '';
+                score = 0;
+                gameSpeed = 150;
+                isGameOver = false;
+                isPaused = false;
+                
+                // Mettre à jour le score affiché
+                scoreElement.textContent = score;
+                
+                // Masquer l'écran de game over
+                gameOverElement.style.display = 'none';
+                
+                // Générer la première nourriture
+                generateFood();
+                
+                // Dessiner l'état initial
+                draw();
+            }
+            
+            // Démarrer le jeu
+            function startGame() {
+                if (!gameInterval) {
+                    // Si aucune direction n'est définie, commencer vers la droite
+                    if (!direction) {
+                        direction = 'right';
+                        nextDirection = 'right';
+                    }
+                    
+                    // Démarrer la boucle de jeu
+                    gameInterval = setInterval(gameLoop, gameSpeed);
+                    
+                    // Mettre à jour les boutons
+                    startButton.disabled = true;
+                    pauseButton.disabled = false;
+                }
+            }
+            
+            // Mettre le jeu en pause
+            function pauseGame() {
+                if (gameInterval) {
+                    clearInterval(gameInterval);
+                    gameInterval = null;
+                    isPaused = true;
+                    
+                    // Mettre à jour les boutons
+                    startButton.disabled = false;
+                    pauseButton.disabled = true;
+                }
+            }
+            
+            // Générer de la nourriture à une position aléatoire
+            function generateFood() {
+                // Trouver une position valide (qui n'est pas occupée par le serpent)
+                let validPosition = false;
+                let newFood;
+                
+                while (!validPosition) {
+                    newFood = {
+                        x: Math.floor(Math.random() * gridWidth),
+                        y: Math.floor(Math.random() * gridHeight)
+                    };
+                    
+                    // Vérifier que la position n'est pas occupée par le serpent
+                    validPosition = true;
+                    for (let segment of snake) {
+                        if (segment.x === newFood.x && segment.y === newFood.y) {
+                            validPosition = false;
+                            break;
+                        }
+                    }
+                }
+                
+                food = newFood;
+            }
+            
+            // Dessiner le jeu
+            function draw() {
+                // Effacer le canvas
+                ctx.fillStyle = colors.background;
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+                
+                // Dessiner la bordure
+                ctx.strokeStyle = colors.border;
+                ctx.lineWidth = 2;
+                ctx.strokeRect(1, 1, canvas.width - 2, canvas.height - 2);
+                
+                // Dessiner la nourriture
+                if (food) {
+                    ctx.fillStyle = colors.food;
+                    ctx.fillRect(
+                        food.x * cellSize, 
+                        food.y * cellSize, 
+                        cellSize, 
+                        cellSize
+                    );
+                }
+                
+                // Dessiner le serpent
+                for (let i = 0; i < snake.length; i++) {
+                    // Tête du serpent en couleur différente
+                    ctx.fillStyle = i === 0 ? colors.snakeHead : colors.snake;
+                    
+                    ctx.fillRect(
+                        snake[i].x * cellSize, 
+                        snake[i].y * cellSize, 
+                        cellSize, 
+                        cellSize
+                    );
+                    
+                    // Ajouter une bordure autour de chaque segment
+                    ctx.strokeStyle = '#000';
+                    ctx.lineWidth = 1;
+                    ctx.strokeRect(
+                        snake[i].x * cellSize, 
+                        snake[i].y * cellSize, 
+                        cellSize, 
+                        cellSize
+                    );
+                }
+                
+                // Si en pause, afficher le texte "PAUSE"
+                if (isPaused && !isGameOver) {
+                    ctx.fillStyle = 'rgba(0, 0, 0, 0.5)';
+                    ctx.fillRect(0, 0, canvas.width, canvas.height);
+                    ctx.fillStyle = colors.border;
+                    ctx.font = '20px "Press Start 2P"';
+                    ctx.textAlign = 'center';
+                    ctx.fillText('PAUSE', canvas.width / 2, canvas.height / 2);
+                }
+            }
+            
+            // Boucle principale du jeu
+            function gameLoop() {
+                // Mettre à jour la direction
+                if (nextDirection) {
+                    direction = nextDirection;
+                }
+                
+                // Calculer la nouvelle position de la tête
+                const head = {x: snake[0].x, y: snake[0].y};
+                
+                switch (direction) {
+                    case 'up':
+                        head.y--;
+                        break;
+                    case 'down':
+                        head.y++;
+                        break;
+                    case 'left':
+                        head.x--;
+                        break;
+                    case 'right':
+                        head.x++;
+                        break;
+                }
+                
+                // Vérifier les collisions
+                if (
+                    // Collision avec les murs
+                    head.x < 0 || head.x >= gridWidth || head.y < 0 || head.y >= gridHeight ||
+                    // Collision avec le corps du serpent
+                    snake.some((segment, index) => index > 0 && segment.x === head.x && segment.y === head.y)
+                ) {
+                    gameOver();
+                    return;
+                }
+                
+                // Ajouter la nouvelle tête au serpent
+                snake.unshift(head);
+                
+                // Vérifier si le serpent a mangé la nourriture
+                if (head.x === food.x && head.y === food.y) {
+                    // Augmenter le score
+                    score += 10;
+                    scoreElement.textContent = score;
+                    
+                    // Générer une nouvelle nourriture
+                    generateFood();
+                    
+                    // Accélérer légèrement le jeu tous les 50 points
+                    if (score % 50 === 0) {
+                        clearInterval(gameInterval);
+                        gameSpeed = Math.max(50, gameSpeed - 10);
+                        gameInterval = setInterval(gameLoop, gameSpeed);
+                    }
+                } else {
+                    // Si pas de nourriture mangée, retirer la queue
+                    snake.pop();
+                }
+                
+                // Redessiner le jeu
+                draw();
+                
+                // Enregistrer le score si connecté
+                if (score > 0 && typeof getCurrentUser === 'function' && getCurrentUser()) {
+                    updateGameScore('snake', score);
+                }
+            }
+            
+            // Gestion du game over
+            function gameOver() {
+                clearInterval(gameInterval);
+                gameInterval = null;
+                isGameOver = true;
+                
+                // Afficher l'écran de game over
+                finalScoreElement.textContent = score;
+                gameOverElement.style.display = 'block';
+                
+                // Mettre à jour les boutons
+                startButton.disabled = true;
+                pauseButton.disabled = true;
+            }
+            
+            // Réinitialiser le jeu
+            function resetGame() {
+                clearInterval(gameInterval);
+                gameInterval = null;
+                initGame();
+                
+                // Mettre à jour les boutons
+                startButton.disabled = false;
+                pauseButton.disabled = true;
+            }
+            
+            // Gestion des événements clavier
+            document.addEventListener('keydown', function(event) {
+                // Ne rien faire si le jeu est terminé
+                if (isGameOver) return;
+                
+                switch (event.key) {
+                    case 'ArrowUp':
+                        if (direction !== 'down') {
+                            nextDirection = 'up';
+                        }
+                        break;
+                    case 'ArrowDown':
+                        if (direction !== 'up') {
+                            nextDirection = 'down';
+                        }
+                        break;
+                    case 'ArrowLeft':
+                        if (direction !== 'right') {
+                            nextDirection = 'left';
+                        }
+                        break;
+                    case 'ArrowRight':
+                        if (direction !== 'left') {
+                            nextDirection = 'right';
+                        }
+                        break;
+                    case ' ': // Espace pour pause/reprise
+                        if (isPaused) {
+                            startGame();
+                            isPaused = false;
+                        } else {
+                            pauseGame();
+                        }
+                        break;
+                }
+            });
+            
+            // Gestion des événements de boutons
+            startButton.addEventListener('click', function() {
+                startGame();
+                isPaused = false;
+            });
+            
+            pauseButton.addEventListener('click', function() {
+                pauseGame();
+            });
+            
+            restartButton.addEventListener('click', resetGame);
+            restartGameButton.addEventListener('click', resetGame);
+            
+            // Gestion des boutons mobiles
+            upButton.addEventListener('click', function() {
+                if (direction !== 'down') {
+                    nextDirection = 'up';
+                    
+                    // Démarrer le jeu automatiquement si non démarré
+                    if (!gameInterval && !isPaused && !isGameOver) {
+                        startGame();
+                    }
+                }
+            });
+            
+            downButton.addEventListener('click', function() {
+                if (direction !== 'up') {
+                    nextDirection = 'down';
+                    
+                    if (!gameInterval && !isPaused && !isGameOver) {
+                        startGame();
+                    }
+                }
+            });
+            
+            leftButton.addEventListener('click', function() {
+                if (direction !== 'right') {
+                    nextDirection = 'left';
+                    
+                    if (!gameInterval && !isPaused && !isGameOver) {
+                        startGame();
+                    }
+                }
+            });
+            
+            rightButton.addEventListener('click', function() {
+                if (direction !== 'left') {
+                    nextDirection = 'right';
+                    
+                    if (!gameInterval && !isPaused && !isGameOver) {
+                        startGame();
+                    }
+                }
+            });
+            
+            // Initialiser le jeu
+            initGame();
+        });
+    </script>
+</body>
+</html>
