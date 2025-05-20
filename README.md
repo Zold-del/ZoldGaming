@@ -1,4 +1,42 @@
-# ZoldGaming 🎮
+# ZoldGaming - Plateforme de mini-jeux rétro
+
+ZoldGaming est une plateforme de mini-jeux rétro au style pixel art inspiré des années 80-90. Le site propose plusieurs jeux classiques revisités avec un style visuel néon et rétro.
+
+## Lien du site
+
+Le site est accessible à l'adresse suivante : [https://zold-del.github.io/ZoldGaming/](https://zold-del.github.io/ZoldGaming/)
+
+## Fonctionnalités principales
+
+- **Collection de mini-jeux** : Snake, Tetris, Pong et plus à venir
+- **Profil utilisateur** : Création de compte, personnalisation du profil
+- **Boutique virtuelle** : Débloquez des objets avec les pièces gagnées en jouant
+- **Système de score** : Comparez vos performances avec d'autres joueurs
+- **Design rétro** : Interface inspirée de l'esthétique pixel art des années 80-90
+
+## Technologies utilisées
+
+- HTML5, CSS3 et JavaScript vanilla (pas de frameworks)
+- Stockage local (localStorage) pour la persistance des données
+- Google AdSense pour la monétisation
+
+## Mini-jeux disponibles
+
+1. **Snake** : Le classique jeu du serpent qui grandit en mangeant des pommes
+2. **Tetris** : Le célèbre jeu de blocs à empiler
+3. **Pong** : Le premier jeu vidéo commercial dans une version modernisée
+
+## Installation en local
+
+1. Clonez ce dépôt : `git clone https://github.com/Zold-del/ZoldGaming.git`
+2. Ouvrez le fichier `index.html` dans votre navigateur
+
+## Améliorations à venir
+
+- Ajout de nouveaux mini-jeux (Pacman, Space Invaders, etc.)
+- Système de classement en ligne
+- Mode multijoueur pour certains jeux
+- Thèmes visuels déblocables 🎮
 
 Une plateforme rétro de mini-jeux en ligne avec des profils utilisateurs, une boutique virtuelle et un style pixel art années 80-90.
 
