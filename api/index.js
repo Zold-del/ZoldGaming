@@ -74,7 +74,6 @@ app.get('/debug-env', (req, res) => {
             const m = uri.match(/@([^/?]+)/);
             if (m && m[1]) host = m[1]; // host: cluster0.xxxx.mongodb.net
         }
-
         res.json({
             success: true,
             mongodb_present: !!uri,
