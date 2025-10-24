@@ -1,0 +1,275 @@
+/* ======== STYLES DE TETROMINOS ======== */
+
+/* Style classique par défaut (déjà défini dans la classe .tetromino) */
+
+/* Style Néon */
+.tetromino-style-neon .tetromino {
+    border: 2px solid rgba(255, 255, 255, 0.9);
+    box-shadow: 0 0 15px currentColor, 0 0 20px currentColor, inset 0 0 8px currentColor;
+    animation: glow 1s infinite alternate;
+}
+
+.tetromino-style-neon .tetromino::before {
+    background: linear-gradient(90deg, 
+        rgba(255,255,255,0) 0%, 
+        rgba(255,255,255,0.5) 50%, 
+        rgba(255,255,255,0) 100%);
+    animation: shine 1s linear infinite;
+}
+
+.tetromino-style-neon .tetromino-i { box-shadow: 0 0 15px var(--color-i), 0 0 20px var(--color-i), inset 0 0 8px var(--color-i); }
+.tetromino-style-neon .tetromino-o { box-shadow: 0 0 15px var(--color-o), 0 0 20px var(--color-o), inset 0 0 8px var(--color-o); }
+.tetromino-style-neon .tetromino-t { box-shadow: 0 0 15px var(--color-t), 0 0 20px var(--color-t), inset 0 0 8px var(--color-t); }
+.tetromino-style-neon .tetromino-s { box-shadow: 0 0 15px var(--color-s), 0 0 20px var(--color-s), inset 0 0 8px var(--color-s); }
+.tetromino-style-neon .tetromino-z { box-shadow: 0 0 15px var(--color-z), 0 0 20px var(--color-z), inset 0 0 8px var(--color-z); }
+.tetromino-style-neon .tetromino-j { box-shadow: 0 0 15px var(--color-j), 0 0 20px var(--color-j), inset 0 0 8px var(--color-j); }
+.tetromino-style-neon .tetromino-l { box-shadow: 0 0 15px var(--color-l), 0 0 20px var(--color-l), inset 0 0 8px var(--color-l); }
+.tetromino-style-neon .tetromino-p { box-shadow: 0 0 15px var(--color-p), 0 0 20px var(--color-p), inset 0 0 8px var(--color-p); }
+.tetromino-style-neon .tetromino-x { box-shadow: 0 0 15px var(--color-x), 0 0 20px var(--color-x), inset 0 0 8px var(--color-x); }
+.tetromino-style-neon .tetromino-u { box-shadow: 0 0 15px var(--color-u), 0 0 20px var(--color-u), inset 0 0 8px var(--color-u); }
+
+.tetromino-style-neon .ghost {
+    border: 1px dashed rgba(255, 255, 255, 0.7);
+    box-shadow: none;
+    background-color: rgba(255, 255, 255, 0.15);
+}
+
+/* Style Cristal */
+.tetromino-style-crystal .tetromino {
+    background-color: rgba(255, 255, 255, 0.3) !important;
+    border: 1px solid rgba(255, 255, 255, 0.8);
+    -webkit-backdrop-filter: blur(2px); /* Safari compatibility */
+    backdrop-filter: blur(2px);
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+}
+
+.tetromino-style-crystal .tetromino::before {
+    background: linear-gradient(45deg, 
+        rgba(255,255,255,0.1) 0%, 
+        rgba(255,255,255,0.5) 50%, 
+        rgba(255,255,255,0.1) 100%);
+    animation: shine 3s linear infinite;
+}
+
+.tetromino-style-crystal .tetromino::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, 
+        rgba(255,255,255,0.4) 0%, 
+        rgba(255,255,255,0) 50%, 
+        rgba(255,255,255,0.4) 100%);
+}
+
+.tetromino-style-crystal .tetromino-i { border-color: var(--color-i); }
+.tetromino-style-crystal .tetromino-o { border-color: var(--color-o); }
+.tetromino-style-crystal .tetromino-t { border-color: var(--color-t); }
+.tetromino-style-crystal .tetromino-s { border-color: var(--color-s); }
+.tetromino-style-crystal .tetromino-z { border-color: var(--color-z); }
+.tetromino-style-crystal .tetromino-j { border-color: var(--color-j); }
+.tetromino-style-crystal .tetromino-l { border-color: var(--color-l); }
+.tetromino-style-crystal .tetromino-p { border-color: var(--color-p); }
+.tetromino-style-crystal .tetromino-x { border-color: var(--color-x); }
+.tetromino-style-crystal .tetromino-u { border-color: var(--color-u); }
+
+.tetromino-style-crystal .ghost {
+    background-color: rgba(255, 255, 255, 0.08) !important;
+    border: 1px dotted rgba(255, 255, 255, 0.3);
+}
+
+/* Style Pixélisé */
+.tetromino-style-pixel .tetromino {
+    border: none;
+    box-shadow: none;
+    image-rendering: pixelated;
+}
+
+.tetromino-style-pixel .tetromino::before,
+.tetromino-style-pixel .tetromino::after {
+    display: none;
+}
+
+@keyframes pixelate {
+    0% { background-size: 100% 100%; }
+    50% { background-size: 90% 90%; }
+    100% { background-size: 100% 100%; }
+}
+
+.tetromino-style-pixel .tetromino-i { 
+    background: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAICAYAAADED76LAAAAFElEQVQYlWNgYGD4z4AGGJEFGHAAACbcA8JlkzQUAAAAAElFTkSuQmCC') repeat;
+    background-size: 100% 100%;
+    animation: pixelate 2s infinite;
+}
+
+.tetromino-style-pixel .tetromino-o,
+.tetromino-style-pixel .tetromino-t,
+.tetromino-style-pixel .tetromino-s,
+.tetromino-style-pixel .tetromino-z,
+.tetromino-style-pixel .tetromino-j,
+.tetromino-style-pixel .tetromino-l,
+.tetromino-style-pixel .tetromino-p,
+.tetromino-style-pixel .tetromino-x,
+.tetromino-style-pixel .tetromino-u {
+    background: var(--color-o);
+    background-image: repeating-linear-gradient(
+        45deg,
+        rgba(0, 0, 0, 0.1) 0px, 
+        rgba(0, 0, 0, 0.1) 2px,
+        transparent 2px,
+        transparent 4px
+    );
+}
+
+.tetromino-style-pixel .ghost {
+    background-image: repeating-linear-gradient(
+        45deg,
+        rgba(255, 255, 255, 0.5) 0px, 
+        rgba(255, 255, 255, 0.5) 1px,
+        transparent 1px,
+        transparent 3px
+    );
+    border: none;
+}
+
+/* Style Métallique */
+.tetromino-style-metallic .tetromino {
+    background-image: linear-gradient(
+        135deg,
+        rgba(255, 255, 255, 0.4) 0%,
+        rgba(255, 255, 255, 0.1) 50%,
+        rgba(255, 255, 255, 0.4) 100%
+    );
+    border: 1px solid rgba(0, 0, 0, 0.3);
+    box-shadow: 
+        inset 0 0 10px rgba(255, 255, 255, 0.5),
+        0 0 5px rgba(0, 0, 0, 0.5);
+}
+
+.tetromino-style-metallic .tetromino::before {
+    background: linear-gradient(45deg, 
+        rgba(255,255,255,0) 0%, 
+        rgba(255,255,255,0.8) 50%, 
+        rgba(255,255,255,0) 100%);
+    animation: shine 2s linear infinite;
+}
+
+.tetromino-style-metallic .tetromino::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to bottom, 
+        rgba(255, 255, 255, 0.5) 0%, 
+        rgba(255, 255, 255, 0.2) 50%, 
+        rgba(0, 0, 0, 0.2) 100%);
+}
+
+.tetromino-style-metallic .tetromino-i,
+.tetromino-style-metallic .tetromino-o,
+.tetromino-style-metallic .tetromino-t,
+.tetromino-style-metallic .tetromino-s,
+.tetromino-style-metallic .tetromino-z,
+.tetromino-style-metallic .tetromino-j,
+.tetromino-style-metallic .tetromino-l,
+.tetromino-style-metallic .tetromino-p,
+.tetromino-style-metallic .tetromino-x,
+.tetromino-style-metallic .tetromino-u {
+    background-color: #a0a0a0;
+}
+
+.tetromino-style-metallic .tetromino-i { background-color: #a0d8ff; }
+.tetromino-style-metallic .tetromino-o { background-color: #ffd700; }
+.tetromino-style-metallic .tetromino-t { background-color: #d8a0ff; }
+.tetromino-style-metallic .tetromino-s { background-color: #a0ffa0; }
+.tetromino-style-metallic .tetromino-z { background-color: #ffa0a0; }
+.tetromino-style-metallic .tetromino-j { background-color: #a0a0ff; }
+.tetromino-style-metallic .tetromino-l { background-color: #ffc080; }
+.tetromino-style-metallic .tetromino-p { background-color: #cc99ff; }
+.tetromino-style-metallic .tetromino-x { background-color: #ff99cc; }
+.tetromino-style-metallic .tetromino-u { background-color: #99ff66; }
+
+.tetromino-style-metallic .ghost {
+    background: repeating-linear-gradient(
+        45deg,
+        rgba(160, 160, 160, 0.2) 0px, 
+        rgba(160, 160, 160, 0.2) 2px,
+        rgba(200, 200, 200, 0.2) 2px,
+        rgba(200, 200, 200, 0.2) 4px
+    );
+    border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+/* Style Futuriste */
+.tetromino-style-futuristic .tetromino {
+    background-color: rgba(25, 25, 50, 0.7) !important;
+    border: 2px solid;
+    box-shadow: 
+        0 0 10px currentColor, 
+        0 0 20px rgba(25, 25, 75, 0.5), 
+        inset 0 0 8px rgba(100, 100, 255, 0.5);
+    position: relative;
+    overflow: hidden;
+}
+
+.tetromino-style-futuristic .tetromino::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: 
+        linear-gradient(
+            45deg, 
+            transparent 0%, 
+            rgba(255, 255, 255, 0.3) 30%, 
+            rgba(255, 255, 255, 0.8) 50%, 
+            transparent 70%
+        );
+    transform: translateX(-100%) translateY(-100%) rotate(45deg);
+    animation: futuristic-scan 3s infinite linear;
+}
+
+@keyframes futuristic-scan {
+    0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+    100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
+}
+
+.tetromino-style-futuristic .tetromino::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: repeating-linear-gradient(
+        90deg,
+        transparent,
+        transparent 2px,
+        rgba(150, 150, 255, 0.1) 2px,
+        rgba(150, 150, 255, 0.1) 4px
+    );
+    opacity: 0.7;
+}
+
+.tetromino-style-futuristic .tetromino-i { border-color: #4deeea; box-shadow: 0 0 10px #4deeea, inset 0 0 5px #4deeea; }
+.tetromino-style-futuristic .tetromino-o { border-color: #ffe700; box-shadow: 0 0 10px #ffe700, inset 0 0 5px #ffe700; }
+.tetromino-style-futuristic .tetromino-t { border-color: #b643cd; box-shadow: 0 0 10px #b643cd, inset 0 0 5px #b643cd; }
+.tetromino-style-futuristic .tetromino-s { border-color: #74ee15; box-shadow: 0 0 10px #74ee15, inset 0 0 5px #74ee15; }
+.tetromino-style-futuristic .tetromino-z { border-color: #ff4465; box-shadow: 0 0 10px #ff4465, inset 0 0 5px #ff4465; }
+.tetromino-style-futuristic .tetromino-j { border-color: #4d5cff; box-shadow: 0 0 10px #4d5cff, inset 0 0 5px #4d5cff; }
+.tetromino-style-futuristic .tetromino-l { border-color: #ff9944; box-shadow: 0 0 10px #ff9944, inset 0 0 5px #ff9944; }
+.tetromino-style-futuristic .tetromino-p { border-color: #a020f0; box-shadow: 0 0 10px #a020f0, inset 0 0 5px #a020f0; }
+.tetromino-style-futuristic .tetromino-x { border-color: #ff69b4; box-shadow: 0 0 10px #ff69b4, inset 0 0 5px #ff69b4; }
+.tetromino-style-futuristic .tetromino-u { border-color: #7cfc00; box-shadow: 0 0 10px #7cfc00, inset 0 0 5px #7cfc00; }
+
+.tetromino-style-futuristic .ghost {
+    background-color: rgba(70, 70, 120, 0.1) !important;
+    border: 1px dashed rgba(150, 150, 255, 0.6);
+    box-shadow: none;
+}
