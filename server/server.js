@@ -17,6 +17,9 @@ const { apiLimiter } = require('./middleware/rateLimiter');
 // Initialisation de l'application
 const app = express();
 
+// Configurer le trust proxy pour Vercel
+app.set('trust proxy', 1);
+
 // Connexion à la base de données
 connectDB();
 
