@@ -224,7 +224,7 @@ class ApiService {
      */
     async checkServerHealth() {
         try {
-            const response = await fetch(this.baseUrl.replace('/api', '/health'));
+            const response = await fetch(`${this.baseUrl}/health`);
             const data = await response.json();
             return data.success;
         } catch (error) {

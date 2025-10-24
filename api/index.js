@@ -11,9 +11,6 @@ const userRoutes = require('../server/routes/users');
 const scoreRoutes = require('../server/routes/scores');
 const adminRoutes = require('../server/routes/admin');
 
-// Import des limiteurs
-const { apiLimiter } = require('../server/middleware/rateLimiter');
-
 // Initialisation de l'application
 const app = express();
 
@@ -39,11 +36,11 @@ app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 app.use(cookieParser());
 
-// Rate limiting global
-app.use('/api/', apiLimiter);
+// Rate limiting global (retiré car problématique sur serverless)
+// app.use('/api/', apiLimiter);
 
 // Routes de santé
-app.get('/api/health', (req, res) => {
+app.get('/health', (req, res) => {
     res.json({
         success: true,
         message: 'Server is running',
@@ -51,11 +48,11 @@ app.get('/api/health', (req, res) => {
     });
 });
 
-// Routes API
-app.use('/api/auth', authRoutes);
-app.use('/api/users', userRoutes);
-app.use('/api/scores', scoreRoutes);
-app.use('/api/admin', adminRoutes);
+// Routes API (sans le préfixe /api car déjà dans l'URL)
+app.use('/auth', authRoutes);
+app.use('/users', userRoutes);
+app.use('/scores', scoreRoutes);
+app.use('/admin', adminRoutes);
 
 // Route 404
 app.use((req, res) => {
@@ -118,4 +115,5 @@ app.use((err, req, res, next) => {
     });
 });
 
+// Export pour Vercel serverless
 module.exports = app;
