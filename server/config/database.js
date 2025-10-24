@@ -22,6 +22,16 @@ const connectDB = async () => {
             throw new Error(msg);
         }
 
+        // Helper to mask credentials when printing the URI in logs
+        const maskUri = (uri) => {
+            try {
+                // replace username:password@ with ***:***@
+                return uri.replace(/\/\/.*:.*@/, '//***:***@');
+            } catch (e) {
+                return '***';
+            }
+        };
+
         // Start the connection and cache the promise
         cached.promise = mongoose.connect(process.env.MONGODB_URI, {})
             .then((mongooseInstance) => {
@@ -41,7 +51,26 @@ const connectDB = async () => {
             .catch((err) => {
                 // Clear cached promise so retries can be attempted
                 cached.promise = null;
-                console.error('❌ Erreur de connexion MongoDB:', err.message || err);
+
+                // Friendly, actionable error messages for common failures
+                const msg = err && err.message ? err.message : String(err);
+                if (/auth|authentication/i.test(msg)) {
+                    console.error('❌ Erreur de connexion MongoDB (auth):', msg);
+                    console.error('   → Vérifiez la variable d\'environnement `MONGODB_URI` (mot de passe utilisateur / nom utilisateur).');
+                    console.error('   → Assurez-vous que la valeur sur Vercel est l\'URI brute (ex: mongodb+srv://user:pass@...) et ne contient pas de préfixe `MONGODB_URI=`.');
+                    console.error('   → Si vous avez changé le mot de passe dans Atlas, mettez à jour `MONGODB_URI` en conséquence.');
+                } else if (/ETIMEDOUT|ECONNREFUSED|network/i.test(msg)) {
+                    console.error('❌ Erreur de connexion MongoDB (network):', msg);
+                    console.error('   → Vérifiez que Network Access dans MongoDB Atlas autorise l\'IP de votre hébergeur (0.0.0.0/0 pour test).');
+                } else {
+                    console.error('❌ Erreur de connexion MongoDB:', msg);
+                }
+
+                // Show masked URI to help debugging without leaking secrets
+                try {
+                    console.error('   → MONGODB_URI (masquée):', maskUri(process.env.MONGODB_URI || ''));
+                } catch (e) {}
+
                 throw err;
             });
     }
