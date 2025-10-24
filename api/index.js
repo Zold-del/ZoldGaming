@@ -10,6 +10,7 @@ const authRoutes = require('../server/routes/auth');
 const userRoutes = require('../server/routes/users');
 const scoreRoutes = require('../server/routes/scores');
 const adminRoutes = require('../server/routes/admin');
+const mongoose = require('mongoose');
 
 // Initialisation de l'application
 const app = express();
@@ -46,6 +47,22 @@ app.get('/health', (req, res) => {
         message: 'Server is running',
         timestamp: new Date().toISOString()
     });
+});
+
+// Route to inspect MongoDB connection state for debugging
+app.get('/db-status', (req, res) => {
+    try {
+        const state = mongoose.connection.readyState; // 0 disconnected, 1 connected, 2 connecting, 3 disconnecting
+        const host = mongoose.connection.host || null;
+        res.json({
+            success: true,
+            connected: state === 1,
+            state,
+            host
+        });
+    } catch (err) {
+        res.status(500).json({ success: false, message: 'Error reading mongoose state', error: err.message });
+    }
 });
 
 // Routes API (sans le préfixe /api car déjà dans l'URL)
