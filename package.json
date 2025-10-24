@@ -7,7 +7,7 @@
     "start": "cd server && npm start",
     "dev": "cd server && npm run dev",
     "install-server": "cd server && npm install",
-    "build": "mkdir -p public && cp -r *.html css js assets favicon.ico public/ || (md public 2>nul & xcopy /E /Y /I *.html public\\ & xcopy /E /Y /I css public\\css\\ & xcopy /E /Y /I js public\\js\\ & xcopy /E /Y /I assets public\\assets\\ & copy favicon.ico public\\)",
+    "build": "echo 'Build step skipped - files already in public/'",
     "postinstall": "npm run install-server"
   },
   "engines": {
