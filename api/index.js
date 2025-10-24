@@ -65,6 +65,27 @@ app.get('/db-status', (req, res) => {
     }
 });
 
+// Route to inspect presence of environment variables in runtime (safe, no secrets)
+app.get('/debug-env', (req, res) => {
+    try {
+        const uri = process.env.MONGODB_URI || null;
+        let host = null;
+        if (uri) {
+            const m = uri.match(/@([^/?]+)/);
+            if (m && m[1]) host = m[1]; // host: cluster0.xxxx.mongodb.net
+        }
+
+        res.json({
+            success: true,
+            mongodb_present: !!uri,
+            mongodb_length: uri ? uri.length : 0,
+            mongodb_host: host
+        });
+    } catch (err) {
+        res.status(500).json({ success: false, message: 'Error reading env', error: err.message });
+    }
+});
+
 // Routes API (sans le préfixe /api car déjà dans l'URL)
 app.use('/auth', authRoutes);
 app.use('/users', userRoutes);
