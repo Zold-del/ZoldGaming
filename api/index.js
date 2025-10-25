@@ -41,7 +41,7 @@ app.use(cookieParser());
 // app.use('/api/', apiLimiter);
 
 // Routes de santé
-app.get('/health', (req, res) => {
+app.get('/api/health', (req, res) => {
     res.json({
         success: true,
         message: 'Server is running',
@@ -50,7 +50,7 @@ app.get('/health', (req, res) => {
 });
 
 // Route to inspect MongoDB connection state for debugging
-app.get('/db-status', (req, res) => {
+app.get('/api/db-status', (req, res) => {
     try {
         const state = mongoose.connection.readyState; // 0 disconnected, 1 connected, 2 connecting, 3 disconnecting
         const host = mongoose.connection.host || null;
@@ -66,7 +66,7 @@ app.get('/db-status', (req, res) => {
 });
 
 // Route to inspect presence of environment variables in runtime (safe, no secrets)
-app.get('/debug-env', (req, res) => {
+app.get('/api/debug-env', (req, res) => {
     try {
         const uri = process.env.MONGODB_URI || null;
         let host = null;
@@ -86,10 +86,10 @@ app.get('/debug-env', (req, res) => {
 });
 
 // Routes API (sans le préfixe /api car déjà dans l'URL)
-app.use('/auth', authRoutes);
-app.use('/users', userRoutes);
-app.use('/scores', scoreRoutes);
-app.use('/admin', adminRoutes);
+app.use('/api/auth', authRoutes);
+app.use('/api/users', userRoutes);
+app.use('/api/scores', scoreRoutes);
+app.use('/api/admin', adminRoutes);
 
 // Route 404
 app.use((req, res) => {
