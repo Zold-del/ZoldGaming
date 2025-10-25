@@ -137,9 +137,11 @@
             <div class="page" id="page-users">
                 <div class="page-header">
                     <div class="search-bar">
-                        <input type="text" id="user-search" placeholder="🔍 Rechercher un utilisateur...">
+                        <label for="user-search" class="sr-only">Rechercher un utilisateur</label>
+                        <input type="text" id="user-search" placeholder="🔍 Rechercher un utilisateur..." aria-label="Rechercher un utilisateur">
                     </div>
-                    <select id="role-filter">
+                    <label for="role-filter" class="sr-only">Filtrer par rôle</label>
+                    <select id="role-filter" aria-label="Filtrer par rôle" title="Filtrer par rôle">
                         <option value="">Tous les rôles</option>
                         <option value="user">Utilisateur</option>
                         <option value="admin">Administrateur</option>
@@ -172,7 +174,8 @@
             <!-- Scores Page -->
             <div class="page" id="page-scores">
                 <div class="page-header">
-                    <select id="mode-filter">
+                    <label for="mode-filter" class="sr-only">Filtrer par mode de jeu</label>
+                    <select id="mode-filter" aria-label="Filtrer par mode de jeu" title="Filtrer par mode de jeu">
                         <option value="">Tous les modes</option>
                         <option value="classic">Classique</option>
                         <option value="sprint">Sprint</option>
@@ -247,16 +250,16 @@
             <div class="modal-body">
                 <input type="hidden" id="edit-user-id">
                 <div class="form-group">
-                    <label>Nom d'utilisateur</label>
-                    <input type="text" id="edit-username">
+                    <label for="edit-username">Nom d'utilisateur</label>
+                    <input type="text" id="edit-username" aria-label="Nom d'utilisateur">
                 </div>
                 <div class="form-group">
-                    <label>Email</label>
-                    <input type="email" id="edit-email">
+                    <label for="edit-email">Email</label>
+                    <input type="email" id="edit-email" aria-label="Email">
                 </div>
                 <div class="form-group">
-                    <label>Rôle</label>
-                    <select id="edit-role">
+                    <label for="edit-role">Rôle</label>
+                    <select id="edit-role" aria-label="Rôle" title="Rôle de l'utilisateur">
                         <option value="user">Utilisateur</option>
                         <option value="moderator">Modérateur</option>
                         <option value="admin">Administrateur</option>
