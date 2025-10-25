@@ -1,0 +1,50 @@
+=== GUIDE DE DÉPLOIEMENT BLOCKDROP ===
+
+🎯 Votre jeu Tetris avec contrôles tactiles est prêt à être déployé !
+
+ÉTAPES À SUIVRE :
+
+1. 📝 CRÉEZ UN REPOSITORY GITHUB
+   • Allez sur https://github.com/new
+   • Nommez-le "blockdrop-tetris" ou "tetris-game"
+   • NE COCHEZ PAS "Add a README file"
+   • Cliquez sur "Create repository"
+
+2. 🚀 DÉPLOYEZ SUR GITHUB
+   • Exécutez le script : .\deploy-to-github.bat
+   • Ou manuellement :
+     git remote add origin https://github.com/VOTRE_USERNAME/blockdrop-tetris.git
+     git branch -M main
+     git push -u origin main
+
+3. ☁️ DÉPLOYEZ SUR VERCEL (GRATUIT)
+   • Allez sur https://vercel.com
+   • Connectez-vous avec GitHub
+   • Cliquez "Import Project"
+   • Sélectionnez votre repository "blockdrop-tetris"
+   • Configurez :
+     - Root Directory : tetris
+     - Build Command : (laisser vide)
+     - Output Directory : (laisser vide)
+   • Cliquez "Deploy"
+
+4. 🎮 VOTRE JEU EST EN LIGNE !
+   • URL Vercel : https://blockdrop-tetris.vercel.app
+   • Testez les contrôles tactiles sur mobile
+   • Partagez avec vos amis !
+
+📱 FONCTIONNALITÉS DISPONIBLES :
+• Jeu Tetris complet avec contrôles tactiles
+• Authentification utilisateur
+• Classement mondial
+• Système de récompenses
+• Conformité RGPD
+• Support mobile complet
+• Mode défi
+
+🔧 SUPPORT :
+• Consultez DEPLOYMENT_GUIDE.md pour plus de détails
+• Vérifiez les logs Vercel en cas de problème
+
+---
+Développé par ZoldDev 🚀
