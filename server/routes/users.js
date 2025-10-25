@@ -317,4 +317,80 @@ router.get('/stats/top', async (req, res) => {
     }
 });
 
+/**
+ * @route   DELETE /api/users/me
+ * @desc    Supprimer le compte utilisateur (RGPD)
+ * @access  Private
+ */
+router.delete('/me', authMiddleware, async (req, res) => {
+    try {
+        const userId = req.user._id;
+        
+        // Supprime tous les scores de l'utilisateur
+        const Score = require('../models/Score');
+        await Score.deleteMany({ userId });
+        
+        // Supprime l'utilisateur
+        await User.findByIdAndDelete(userId);
+        
+        res.json({ 
+            success: true, 
+            message: 'Compte supprimé avec succès' 
+        });
+    } catch (error) {
+        console.error('Erreur lors de la suppression du compte:', error);
+        res.status(500).json({ 
+            success: false, 
+            message: 'Erreur lors de la suppression du compte' 
+        });
+    }
+});
+
+/**
+ * @route   GET /api/users/me/export
+ * @desc    Exporter toutes les données utilisateur (RGPD)
+ * @access  Private
+ */
+router.get('/me/export', authMiddleware, async (req, res) => {
+    try {
+        const user = await User.findById(req.user._id);
+        const Score = require('../models/Score');
+        const scores = await Score.find({ userId: req.user._id });
+        
+        const exportData = {
+            user: {
+                id: user._id,
+                username: user.username,
+                email: user.email,
+                avatar: user.avatar,
+                stats: user.stats,
+                rewards: user.rewards,
+                settings: user.settings,
+                createdAt: user.createdAt,
+                lastLogin: user.lastLogin
+            },
+            scores: scores.map(s => ({
+                score: s.score,
+                lines: s.lines,
+                level: s.level,
+                duration: s.duration,
+                mode: s.mode,
+                createdAt: s.createdAt
+            })),
+            exportDate: new Date().toISOString()
+        };
+        
+        res.json({ 
+            success: true, 
+            data: exportData 
+        });
+    } catch (error) {
+        console.error('Erreur lors de l\'export des données:', error);
+        res.status(500).json({ 
+            success: false, 
+            message: 'Erreur lors de l\'export des données' 
+        });
+    }
+});
+
 module.exports = router;

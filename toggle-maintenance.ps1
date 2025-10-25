@@ -48,7 +48,7 @@ if ($Mode -eq "on") {
         Write-Host "⚠️  Pas de sauvegarde trouvée, utilisation de la config par défaut" -ForegroundColor Yellow
         
         # Crée une config par défaut si pas de backup
-        $defaultConfig = @"
+        $defaultConfig = @'
 {
   "version": 2,
   "builds": [
@@ -68,11 +68,11 @@ if ($Mode -eq "on") {
     },
     {
       "src": "/(.*)",
-      "dest": "/public/`$1"
+      "dest": "/public/$1"
     }
   ]
 }
-"@
+'@
         $defaultConfig | Out-File -FilePath "vercel.json" -Encoding utf8
     }
     

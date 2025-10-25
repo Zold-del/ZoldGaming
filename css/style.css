@@ -1580,6 +1580,329 @@ button:hover {
     }
 }
 
+/* ======== RESPONSIVE MOBILE & TABLET ======== */
+
+/* Touch devices - Tailles tactiles optimisées */
+@media (hover: none) and (pointer: coarse) {
+    button, 
+    .menu-button,
+    .profile-menu-item,
+    .challenge-card,
+    .reward-item,
+    .lang-button,
+    .tetromino-style-btn,
+    .theme-option {
+        min-height: 48px;
+        min-width: 48px;
+        touch-action: manipulation;
+    }
+    
+    /* Améliore l'espacement pour les touches */
+    .menu button {
+        margin: 0.5rem 0;
+    }
+}
+
+/* Mobile Portrait (320px - 480px) */
+@media (max-width: 480px) {
+    :root {
+        font-size: 12px;
+    }
+    
+    body {
+        padding: 0.5rem;
+    }
+    
+    /* Menu principal */
+    .menu-container,
+    .menu {
+        width: 95%;
+        min-width: auto;
+        max-width: 350px;
+        padding: 1.5rem 1rem;
+        margin: 0 auto;
+    }
+    
+    .titre-retro {
+        font-size: 1.5rem;
+        margin-bottom: 1rem;
+    }
+    
+    .menu button,
+    button {
+        font-size: 0.7rem;
+        padding: 12px 20px;
+        margin: 0.3rem 0;
+    }
+    
+    /* Options menu */
+    .options-container {
+        width: 95%;
+        padding: 1rem;
+    }
+    
+    .options-section {
+        margin-bottom: 1.5rem;
+    }
+    
+    .options-section-title {
+        font-size: 0.9rem;
+        margin-bottom: 0.8rem;
+    }
+    
+    .option-row {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+    
+    .option-label {
+        font-size: 0.7rem;
+        margin-bottom: 0.3rem;
+    }
+    
+    .lang-buttons {
+        flex-direction: row;
+        width: 100%;
+        gap: 0.5rem;
+    }
+    
+    .lang-button {
+        flex: 1;
+        font-size: 0.8rem;
+    }
+    
+    /* Sliders volume */
+    .volume-slider {
+        width: 100%;
+    }
+    
+    .volume-value {
+        font-size: 0.8rem;
+    }
+    
+    /* Thèmes couleurs */
+    .color-themes {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 0.5rem;
+    }
+    
+    .theme-option {
+        padding: 0.5rem;
+    }
+    
+    /* Styles tetrominos */
+    .tetromino-style-btn {
+        font-size: 0.6rem;
+        padding: 8px 12px;
+        min-width: 90px;
+    }
+    
+    /* Game board */
+    .game-container {
+        flex-direction: column;
+        gap: 1rem;
+        padding: 0.5rem;
+    }
+    
+    .game-board {
+        width: min(280px, 90vw);
+        height: min(560px, calc(90vw * 2));
+    }
+    
+    .cell {
+        width: min(28px, 9vw);
+        height: min(28px, 9vw);
+    }
+    
+    .game-info {
+        width: 100%;
+        max-width: 280px;
+        flex-direction: row;
+        flex-wrap: wrap;
+        gap: 1rem;
+    }
+    
+    .next-piece,
+    .score-panel,
+    .level-panel {
+        flex: 1 1 45%;
+        min-width: 120px;
+    }
+    
+    .next-piece-container {
+        width: 100%;
+        height: 100px;
+    }
+    
+    .controls-hint {
+        font-size: 0.6rem;
+        line-height: 1.4;
+    }
+    
+    /* Leaderboard */
+    .leaderboard-table {
+        font-size: 0.6rem;
+    }
+    
+    .leaderboard-table th,
+    .leaderboard-table td {
+        padding: 0.5rem 0.3rem;
+    }
+    
+    /* Challenges */
+    .challenge-cards {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+    
+    .challenge-card {
+        padding: 1rem;
+    }
+    
+    /* Rewards */
+    .rewards-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 0.8rem;
+    }
+    
+    .reward-item {
+        padding: 0.8rem;
+    }
+    
+    /* Login/Register */
+    .login-container,
+    .register-container {
+        width: 95%;
+        max-width: 350px;
+        padding: 1.5rem 1rem;
+    }
+    
+    .login-form input,
+    .register-form input {
+        font-size: 0.8rem;
+        padding: 10px;
+    }
+    
+    /* Profile dropdown */
+    .profile-dropdown {
+        min-width: 200px;
+        left: auto;
+        right: 0;
+        transform: translateX(0);
+    }
+    
+    .profile-dropdown.active {
+        transform: translateX(0) translateY(0);
+    }
+    
+    /* Cookie consent */
+    .cookie-consent-banner {
+        flex-direction: column;
+        padding: 1rem;
+        gap: 0.8rem;
+    }
+    
+    .cookie-consent-buttons {
+        flex-direction: column;
+        width: 100%;
+        gap: 0.5rem;
+    }
+    
+    .cookie-consent-buttons button {
+        width: 100%;
+        font-size: 0.7rem;
+    }
+    
+    /* Modal */
+    .cookie-settings-modal {
+        width: 95%;
+        max-width: 350px;
+        padding: 1.5rem 1rem;
+    }
+}
+
+/* Tablet (481px - 768px) */
+@media (min-width: 481px) and (max-width: 768px) {
+    :root {
+        font-size: 14px;
+    }
+    
+    .menu-container,
+    .menu {
+        width: 85%;
+        max-width: 450px;
+        padding: 2rem 1.5rem;
+    }
+    
+    .titre-retro {
+        font-size: 2.5rem;
+    }
+    
+    .menu button {
+        font-size: 0.9rem;
+        padding: 14px 24px;
+    }
+    
+    .game-board {
+        width: 350px;
+        height: 700px;
+    }
+    
+    .cell {
+        width: 35px;
+        height: 35px;
+    }
+    
+    .game-info {
+        width: 280px;
+    }
+    
+    .options-container {
+        width: 90%;
+        max-width: 500px;
+    }
+    
+    .color-themes {
+        grid-template-columns: repeat(3, 1fr);
+    }
+    
+    .rewards-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+    
+    .leaderboard-table {
+        font-size: 0.8rem;
+    }
+}
+
+/* Landscape mobile (orientation paysage) */
+@media (max-height: 500px) and (orientation: landscape) {
+    .game-container {
+        flex-direction: row;
+        justify-content: center;
+    }
+    
+    .game-board {
+        width: 250px;
+        height: 400px;
+    }
+    
+    .cell {
+        width: 25px;
+        height: 20px;
+    }
+    
+    .game-info {
+        width: 200px;
+        flex-direction: column;
+    }
+    
+    .menu {
+        max-height: 90vh;
+        overflow-y: auto;
+    }
+}
+
 /* ======== MENU PROFIL UTILISATEUR ======== */
 .user-profile-container {
     position: relative;

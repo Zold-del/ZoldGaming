@@ -1,5 +1,7 @@
 const jwt = require('jsonwebtoken');
 const User = require('../models/User');
+const TokenBlacklist = require('../models/TokenBlacklist');
+const { hash, verifyAccessToken } = require('../utils/encryption');
 
 /**
  * Middleware pour vérifier le token JWT
@@ -24,8 +26,25 @@ const authMiddleware = async (req, res, next) => {
         }
         
         try {
+            // Vérifie si le token est blacklisté
+            const tokenHash = hash(token);
+            const isBlacklisted = await TokenBlacklist.isBlacklisted(tokenHash);
+            
+            if (isBlacklisted) {
+                return res.status(401).json({
+                    success: false,
+                    message: 'Token révoqué'
+                });
+            }
+            
             // Vérifie et décode le token
-            const decoded = jwt.verify(token, process.env.JWT_SECRET);
+            let decoded;
+            try {
+                decoded = verifyAccessToken(token);
+            } catch (error) {
+                // Fallback sur l'ancienne méthode si le nouveau format échoue
+                decoded = jwt.verify(token, process.env.JWT_SECRET);
+            }
             
             // Récupère l'utilisateur depuis la base de données
             const user = await User.findById(decoded.id).select('-password');

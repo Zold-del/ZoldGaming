@@ -1033,8 +1033,13 @@ class BlockDropApp {    /**
 }
 
 // Initialisation de l'application
-window.onload = () => {   window.blockDropApp = new BlockDropApp();
-   window.blockDropApp.showMainMenu();
+window.onload = () => {
+    // Initialise le système de consentement RGPD
+    window.cookieConsent = new CookieConsent();
+    window.cookieConsent.init();
+    
+    window.blockDropApp = new BlockDropApp();
+    window.blockDropApp.showMainMenu();
     
     // Précharge les polices
     if ('fonts' in document) {

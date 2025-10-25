@@ -3,16 +3,25 @@ const router = express.Router();
 const { body, validationResult } = require('express-validator');
 const jwt = require('jsonwebtoken');
 const User = require('../models/User');
+const TokenBlacklist = require('../models/TokenBlacklist');
 const { authMiddleware } = require('../middleware/auth');
 const { authLimiter, registerLimiter } = require('../middleware/rateLimiter');
+const { generateTokenPair, verifyRefreshToken, hash } = require('../utils/encryption');
 
 /**
- * Génère un token JWT
+ * Génère un token JWT (ancienne méthode - conservée pour compatibilité)
  */
 const generateToken = (userId) => {
     return jwt.sign({ id: userId }, process.env.JWT_SECRET, {
         expiresIn: process.env.JWT_EXPIRE || '7d'
     });
+};
+
+/**
+ * Génère une paire de tokens sécurisés (nouvelle méthode)
+ */
+const generateSecureTokens = (userId, role = 'user') => {
+    return generateTokenPair(userId, role);
 };
 
 /**
@@ -71,13 +80,15 @@ router.post('/register',
                 password
             });
 
-            // Génère le token
-            const token = generateToken(user._id);
+            // Génère une paire de tokens sécurisés
+            const tokens = generateSecureTokens(user._id, user.role);
 
             res.status(201).json({
                 success: true,
                 message: 'Compte créé avec succès',
-                token,
+                token: tokens.accessToken,
+                refreshToken: tokens.refreshToken,
+                expiresIn: tokens.expiresIn,
                 user: user.getPublicProfile()
             });
 
@@ -260,6 +271,116 @@ router.post('/logout', authMiddleware, (req, res) => {
         success: true,
         message: 'Déconnexion réussie'
     });
+});
+
+/**
+ * @route   POST /api/auth/refresh
+ * @desc    Rafraîchir l'access token avec un refresh token
+ * @access  Public (mais nécessite un refresh token valide)
+ */
+router.post('/refresh',
+    [
+        body('refreshToken').notEmpty().withMessage('Refresh token requis')
+    ],
+    async (req, res) => {
+        try {
+            const errors = validationResult(req);
+            if (!errors.isEmpty()) {
+                return res.status(400).json({
+                    success: false,
+                    errors: errors.array()
+                });
+            }
+
+            const { refreshToken } = req.body;
+
+            // Vérifie si le refresh token est blacklisté
+            const isBlacklisted = await TokenBlacklist.isBlacklisted(hash(refreshToken));
+            if (isBlacklisted) {
+                return res.status(401).json({
+                    success: false,
+                    message: 'Refresh token invalide'
+                });
+            }
+
+            // Vérifie et décrypte le refresh token
+            const decoded = verifyRefreshToken(refreshToken);
+
+            // Vérifie que l'utilisateur existe toujours
+            const user = await User.findById(decoded.id);
+            if (!user || !user.isActive) {
+                return res.status(401).json({
+                    success: false,
+                    message: 'Utilisateur introuvable'
+                });
+            }
+
+            // Génère une nouvelle paire de tokens
+            const tokens = generateSecureTokens(user._id, user.role);
+
+            // Optionnel: Blacklist l'ancien refresh token (rotation stricte)
+            const tokenExpiry = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000); // 30 jours
+            await TokenBlacklist.addToken(hash(refreshToken), user._id, 'rotation', tokenExpiry);
+
+            res.json({
+                success: true,
+                message: 'Token rafraîchi',
+                token: tokens.accessToken,
+                refreshToken: tokens.refreshToken,
+                expiresIn: tokens.expiresIn
+            });
+
+        } catch (error) {
+            console.error('Erreur lors du refresh:', error);
+            res.status(401).json({
+                success: false,
+                message: 'Refresh token invalide ou expiré'
+            });
+        }
+    }
+);
+
+/**
+ * @route   POST /api/auth/revoke
+ * @desc    Révoquer un token (déconnexion avec blacklist)
+ * @access  Private
+ */
+router.post('/revoke', authMiddleware, async (req, res) => {
+    try {
+        const token = req.headers.authorization?.split(' ')[1];
+        
+        if (!token) {
+            return res.status(400).json({
+                success: false,
+                message: 'Token manquant'
+            });
+        }
+
+        // Décode le token pour obtenir l'expiration
+        const decoded = jwt.decode(token);
+        const expiresAt = new Date(decoded.exp * 1000);
+
+        // Ajoute le token à la blacklist
+        await TokenBlacklist.addToken(hash(token), req.user._id, 'logout', expiresAt);
+
+        // Si un refresh token est fourni, le blacklister aussi
+        if (req.body.refreshToken) {
+            const refreshExpiry = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000);
+            await TokenBlacklist.addToken(hash(req.body.refreshToken), req.user._id, 'logout', refreshExpiry);
+        }
+
+        res.json({
+            success: true,
+            message: 'Token révoqué avec succès'
+        });
+
+    } catch (error) {
+        console.error('Erreur lors de la révocation:', error);
+        res.status(500).json({
+            success: false,
+            message: 'Erreur lors de la révocation'
+        });
+    }
 });
 
 module.exports = router;

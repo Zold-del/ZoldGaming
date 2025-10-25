@@ -508,6 +508,124 @@ class OptionsMenu {
         controlsSection.appendChild(controlsInfo);
         optionsContainer.appendChild(controlsSection);
         
+        // Section RGPD & Confidentialité
+        if (window.apiService && window.apiService.isAuthenticated()) {
+            const privacySection = Utilities.createElement('div', { class: 'options-section' });
+            privacySection.appendChild(Utilities.createElement('h2', { class: 'options-section-title' }, GameSettings.language === 'fr' ? 'Confidentialité & RGPD' : 'Privacy & GDPR'));
+            
+            const privacyButtons = Utilities.createElement('div', { 
+                style: 'display: flex; flex-direction: column; gap: 10px; margin-top: 1rem;' 
+            });
+            
+            // Bouton Gérer les cookies
+            const cookiesBtn = Utilities.createElement('button', {
+                style: 'padding: 10px 20px; background: #333; color: #fff; border: 2px solid var(--primary); border-radius: 8px; cursor: pointer; font-family: "Press Start 2P", monospace; font-size: 10px;'
+            }, GameSettings.language === 'fr' ? '🍪 Gérer les Cookies' : '🍪 Manage Cookies');
+            
+            cookiesBtn.addEventListener('click', () => {
+                if (window.cookieConsent) {
+                    window.cookieConsent.showSettings();
+                }
+            });
+            
+            // Bouton Télécharger mes données
+            const exportBtn = Utilities.createElement('button', {
+                style: 'padding: 10px 20px; background: #333; color: #fff; border: 2px solid var(--primary); border-radius: 8px; cursor: pointer; font-family: "Press Start 2P", monospace; font-size: 10px;'
+            }, GameSettings.language === 'fr' ? '📄 Télécharger mes Données' : '📄 Download my Data');
+            
+            exportBtn.addEventListener('click', async () => {
+                try {
+                    exportBtn.textContent = GameSettings.language === 'fr' ? 'Chargement...' : 'Loading...';
+                    exportBtn.disabled = true;
+                    
+                    const response = await fetch('/api/users/me/export', {
+                        headers: {
+                            'Authorization': `Bearer ${localStorage.getItem('blockdrop_token')}`
+                        }
+                    });
+                    
+                    const data = await response.json();
+                    
+                    if (data.success) {
+                        // Télécharge en JSON
+                        const blob = new Blob([JSON.stringify(data.data, null, 2)], { type: 'application/json' });
+                        const url = URL.createObjectURL(blob);
+                        const a = document.createElement('a');
+                        a.href = url;
+                        a.download = `blockdrop-data-${new Date().toISOString().split('T')[0]}.json`;
+                        document.body.appendChild(a);
+                        a.click();
+                        document.body.removeChild(a);
+                        URL.revokeObjectURL(url);
+                        
+                        alert(GameSettings.language === 'fr' ? 'Données téléchargées avec succès!' : 'Data downloaded successfully!');
+                    } else {
+                        alert(GameSettings.language === 'fr' ? 'Erreur lors de l\'export' : 'Export error');
+                    }
+                } catch (error) {
+                    console.error('Export error:', error);
+                    alert(GameSettings.language === 'fr' ? 'Erreur lors de l\'export' : 'Export error');
+                } finally {
+                    exportBtn.textContent = GameSettings.language === 'fr' ? '📄 Télécharger mes Données' : '📄 Download my Data';
+                    exportBtn.disabled = false;
+                }
+            });
+            
+            // Bouton Supprimer mon compte
+            const deleteBtn = Utilities.createElement('button', {
+                style: 'padding: 10px 20px; background: #8b0000; color: #fff; border: 2px solid #ff0000; border-radius: 8px; cursor: pointer; font-family: "Press Start 2P", monospace; font-size: 10px;'
+            }, GameSettings.language === 'fr' ? '🗑️ Supprimer mon Compte' : '🗑️ Delete my Account');
+            
+            deleteBtn.addEventListener('click', async () => {
+                const confirmMsg = GameSettings.language === 'fr' 
+                    ? 'ATTENTION: Cette action est IRRÉVERSIBLE!\n\nToutes vos données (scores, récompenses, paramètres) seront définitivement supprimées.\n\nTapez "SUPPRIMER" pour confirmer:'
+                    : 'WARNING: This action is PERMANENT!\n\nAll your data (scores, rewards, settings) will be permanently deleted.\n\nType "DELETE" to confirm:';
+                
+                const confirmKeyword = GameSettings.language === 'fr' ? 'SUPPRIMER' : 'DELETE';
+                const userInput = prompt(confirmMsg);
+                
+                if (userInput === confirmKeyword) {
+                    try {
+                        const response = await fetch('/api/users/me', {
+                            method: 'DELETE',
+                            headers: {
+                                'Authorization': `Bearer ${localStorage.getItem('blockdrop_token')}`
+                            }
+                        });
+                        
+                        const data = await response.json();
+                        
+                        if (data.success) {
+                            alert(GameSettings.language === 'fr' ? 'Compte supprimé avec succès. Vous allez être redirigé...' : 'Account deleted successfully. Redirecting...');
+                            
+                            // Déconnexion
+                            localStorage.removeItem('blockdrop_token');
+                            localStorage.removeItem('blockdrop_user');
+                            
+                            // Retour au menu
+                            if (this.onBackToMenuCallback) {
+                                this.onBackToMenuCallback();
+                            }
+                        } else {
+                            alert(GameSettings.language === 'fr' ? 'Erreur lors de la suppression' : 'Deletion error');
+                        }
+                    } catch (error) {
+                        console.error('Delete error:', error);
+                        alert(GameSettings.language === 'fr' ? 'Erreur lors de la suppression' : 'Deletion error');
+                    }
+                } else if (userInput !== null) {
+                    alert(GameSettings.language === 'fr' ? 'Suppression annulée' : 'Deletion cancelled');
+                }
+            });
+            
+            privacyButtons.appendChild(cookiesBtn);
+            privacyButtons.appendChild(exportBtn);
+            privacyButtons.appendChild(deleteBtn);
+            
+            privacySection.appendChild(privacyButtons);
+            optionsContainer.appendChild(privacySection);
+        }
+        
         // Ajoute le bouton retour
         const backButton = Utilities.createElement('button', {
             style: 'margin-top: 2rem;'
