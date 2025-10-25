@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel Admin - BlockDrop</title>
+    <link rel="stylesheet" href="css/admin-panel.css">
+</head>
+<body>
+    <div id="admin-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h1>🎮 BlockDrop</h1>
+                <p class="admin-badge">Administration</p>
+            </div>
+            
+            <nav class="sidebar-nav">
+                <button class="nav-item active" data-page="dashboard">
+                    <span class="icon">📊</span>
+                    <span>Dashboard</span>
+                </button>
+                <button class="nav-item" data-page="users">
+                    <span class="icon">👥</span>
+                    <span>Utilisateurs</span>
+                </button>
+                <button class="nav-item" data-page="scores">
+                    <span class="icon">🏆</span>
+                    <span>Scores</span>
+                </button>
+                <button class="nav-item" data-page="stats">
+                    <span class="icon">📈</span>
+                    <span>Statistiques</span>
+                </button>
+            </nav>
+
+            <div class="sidebar-footer">
+                <div class="admin-info">
+                    <span class="admin-avatar" id="admin-avatar">👤</span>
+                    <div>
+                        <p class="admin-name" id="admin-name">Admin</p>
+                        <p class="admin-role">Administrateur</p>
+                    </div>
+                </div>
+                <button class="btn-logout" id="btn-logout">
+                    <span>🚪</span> Déconnexion
+                </button>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Header -->
+            <header class="content-header">
+                <h2 id="page-title">Dashboard</h2>
+                <div class="header-actions">
+                    <button class="btn-refresh" id="btn-refresh">
+                        <span>🔄</span> Actualiser
+                    </button>
+                </div>
+            </header>
+
+            <!-- Dashboard Page -->
+            <div class="page active" id="page-dashboard">
+                <!-- Stats Cards -->
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon">👥</div>
+                        <div class="stat-info">
+                            <h3 id="stat-users">0</h3>
+                            <p>Utilisateurs</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">🎮</div>
+                        <div class="stat-info">
+                            <h3 id="stat-games">0</h3>
+                            <p>Parties jouées</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">🏆</div>
+                        <div class="stat-info">
+                            <h3 id="stat-scores">0</h3>
+                            <p>Total points</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">✨</div>
+                        <div class="stat-info">
+                            <h3 id="stat-active">0</h3>
+                            <p>Actifs (7j)</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Charts and Tables -->
+                <div class="dashboard-content">
+                    <div class="card">
+                        <h3>🏆 Top 10 Scores</h3>
+                        <div class="table-container">
+                            <table id="top-scores-table">
+                                <thead>
+                                    <tr>
+                                        <th>Rang</th>
+                                        <th>Joueur</th>
+                                        <th>Score</th>
+                                        <th>Mode</th>
+                                        <th>Date</th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <h3>👥 Nouveaux utilisateurs</h3>
+                        <div class="table-container">
+                            <table id="recent-users-table">
+                                <thead>
+                                    <tr>
+                                        <th>Avatar</th>
+                                        <th>Nom</th>
+                                        <th>Email</th>
+                                        <th>Inscription</th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Users Page -->
+            <div class="page" id="page-users">
+                <div class="page-header">
+                    <div class="search-bar">
+                        <input type="text" id="user-search" placeholder="🔍 Rechercher un utilisateur...">
+                    </div>
+                    <div class="form-group">
+                        <label for="role-filter">Filtrer par rôle</label>
+                        <select id="role-filter" aria-label="Filtrer les utilisateurs par rôle">
+                            <option value="">Tous les rôles</option>
+                            <option value="user">Utilisateur</option>
+                            <option value="admin">Administrateur</option>
+                            <option value="moderator">Modérateur</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="table-container">
+                        <table id="users-table">
+                            <thead>
+                                <tr>
+                                    <th>Avatar</th>
+                                    <th>Nom</th>
+                                    <th>Email</th>
+                                    <th>Rôle</th>
+                                    <th>Parties</th>
+                                    <th>Inscription</th>
+                                    <th>Statut</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                    <div class="pagination" id="users-pagination"></div>
+                </div>
+            </div>
+
+            <!-- Scores Page -->
+            <div class="page" id="page-scores">
+                <div class="page-header">
+                    <div class="form-group">
+                        <label for="mode-filter">Filtrer par mode</label>
+                        <select id="mode-filter" aria-label="Filtrer les scores par mode de jeu">
+                            <option value="">Tous les modes</option>
+                            <option value="classic">Classique</option>
+                            <option value="sprint">Sprint</option>
+                            <option value="marathon">Marathon</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="table-container">
+                        <table id="scores-table">
+                            <thead>
+                                <tr>
+                                    <th>Joueur</th>
+                                    <th>Score</th>
+                                    <th>Lignes</th>
+                                    <th>Niveau</th>
+                                    <th>Mode</th>
+                                    <th>Durée</th>
+                                    <th>Date</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                    <div class="pagination" id="scores-pagination"></div>
+                </div>
+            </div>
+
+            <!-- Stats Page -->
+            <div class="page" id="page-stats">
+                <div class="stats-grid">
+                    <div class="card">
+                        <h3>📊 Statistiques globales</h3>
+                        <div id="global-stats" class="stats-list"></div>
+                    </div>
+                    
+                    <div class="card">
+                        <h3>🎮 Par mode de jeu</h3>
+                        <div id="mode-stats" class="stats-list"></div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3>🏆 Top 10 Joueurs</h3>
+                    <div class="table-container">
+                        <table id="top-players-table">
+                            <thead>
+                                <tr>
+                                    <th>Rang</th>
+                                    <th>Avatar</th>
+                                    <th>Joueur</th>
+                                    <th>Meilleur score</th>
+                                    <th>Parties jouées</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Modal Modifier Utilisateur -->
+    <div class="modal" id="modal-edit-user">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Modifier l'utilisateur</h3>
+                <button class="modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" id="edit-user-id">
+                <div class="form-group">
+                    <label for="edit-username">Nom d'utilisateur</label>
+                    <input type="text" id="edit-username" placeholder="Entrez le nom d'utilisateur" aria-label="Nom d'utilisateur">
+                </div>
+                <div class="form-group">
+                    <label for="edit-email">Email</label>
+                    <input type="email" id="edit-email" placeholder="Entrez l'adresse email" aria-label="Adresse email">
+                </div>
+                <div class="form-group">
+                    <label for="edit-role">Rôle</label>
+                    <select id="edit-role" aria-label="Sélectionner le rôle de l'utilisateur">
+                        <option value="user">Utilisateur</option>
+                        <option value="moderator">Modérateur</option>
+                        <option value="admin">Administrateur</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="edit-active">
+                        <input type="checkbox" id="edit-active" aria-label="Compte actif">
+                        Compte actif
+                    </label>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary modal-close">Annuler</button>
+                <button class="btn btn-primary" id="btn-save-user">Enregistrer</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Loading -->
+    <div class="loading" id="loading">
+        <div class="spinner"></div>
+    </div>
+
+    <script src="js/admin-panel.js"></script>
+</body>
+</html>

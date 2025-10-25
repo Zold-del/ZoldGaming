@@ -1,0 +1,20 @@
+{
+  "name": "blockdrop-tetris",
+  "version": "1.0.0",
+  "description": "BlockDrop - Un jeu Tetris moderne",
+  "main": "server/server.js",
+  "scripts": {
+    "start": "cd server && npm start",
+    "dev": "cd server && npm run dev",
+    "install-server": "cd server && npm install",
+    "build": "echo 'Build step skipped - files already in public/'",
+    "postinstall": "npm run install-server"
+  },
+  "engines": {
+    "node": ">=16.0.0",
+    "npm": ">=8.0.0"
+  },
+  "keywords": ["tetris", "game", "blockdrop"],
+  "author": "ZoldDev",
+  "license": "MIT"
+}

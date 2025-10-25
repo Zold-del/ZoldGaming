@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="referrer" content="no-referrer-when-downgrade">
+    <title>BLOCKDROP</title>    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/tetromino-styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <div id="app">
+        <!-- Les différentes vues seront chargées dynamiquement ici -->
+    </div>
+    
+    <!-- Audio -->
+    <audio id="theme-music" loop>
+        <source src="assets/audio/Untitled.mp3" type="audio/mp3">
+        <!-- Pour changer la musique par défaut, modifiez le fichier source ci-dessus -->
+    </audio>
+    <audio id="rotate-sound">
+        <source src="assets/audio/rotate.mp3" type="audio/mp3">
+    </audio>
+    <audio id="drop-sound">
+        <source src="assets/audio/drop.mp3" type="audio/mp3">
+    </audio>
+    <audio id="line-sound">
+        <source src="assets/audio/line.mp3" type="audio/mp3">
+    </audio>
+    <audio id="gameover-sound">
+        <source src="assets/audio/gameover.mp3" type="audio/mp3">
+    </audio>    <!-- Scripts -->
+    <script src="js/Utilities.js"></script>
+    <script src="js/ApiService.js"></script>
+    <script src="js/Tetromino.js"></script>
+    <script src="js/GameBoard.js"></script>
+    <script src="js/GameEngine.js"></script>
+    <script src="js/BackgroundEffects.js"></script>
+    <script src="js/AudioManager.js"></script>
+    <script src="js/LoginMenu.js"></script>
+    <script src="js/LeaderboardMenu.js"></script>
+    <script src="js/MainMenu.js"></script>
+    <script src="js/ChallengeMode.js"></script>
+    <script src="js/Rewards.js"></script>
+    <script src="js/OptionsMenu.js"></script>
+    <script src="js/PauseMenu.js"></script>
+    <script src="js/UserSettingsMenu.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>
