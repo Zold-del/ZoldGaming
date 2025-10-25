@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BLOCKDROP - Maintenance</title>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Press Start 2P', cursive;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* Animation de fond avec des blocs Tetris */
+        .tetris-bg {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            opacity: 0.1;
+            z-index: 0;
+        }
+
+        .tetris-block {
+            position: absolute;
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.3);
+            border: 2px solid rgba(255, 255, 255, 0.5);
+            animation: fall linear infinite;
+        }
+
+        @keyframes fall {
+            0% {
+                transform: translateY(-100px) rotate(0deg);
+            }
+            100% {
+                transform: translateY(100vh) rotate(360deg);
+            }
+        }
+
+        .container {
+            position: relative;
+            z-index: 1;
+            text-align: center;
+            padding: 2rem;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            max-width: 600px;
+            animation: slideIn 0.8s ease-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .logo {
+            font-size: 2.5rem;
+            color: #667eea;
+            margin-bottom: 1rem;
+            text-shadow: 3px 3px 0px rgba(0, 0, 0, 0.1);
+        }
+
+        .icon {
+            font-size: 4rem;
+            margin: 1rem 0;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.1);
+            }
+        }
+
+        h1 {
+            font-size: 1.5rem;
+            color: #333;
+            margin-bottom: 1rem;
+            line-height: 1.8;
+        }
+
+        p {
+            font-size: 0.8rem;
+            color: #666;
+            margin-bottom: 0.8rem;
+            line-height: 1.8;
+        }
+
+        .status {
+            display: inline-block;
+            padding: 0.5rem 1.5rem;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 25px;
+            font-size: 0.7rem;
+            margin: 1rem 0;
+            animation: blink 2s ease-in-out infinite;
+        }
+
+        @keyframes blink {
+            0%, 100% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0.7;
+            }
+        }
+
+        .info {
+            margin-top: 2rem;
+            padding-top: 1rem;
+            border-top: 2px solid #eee;
+        }
+
+        .info p {
+            font-size: 0.6rem;
+            color: #999;
+        }
+
+        .social-links {
+            margin-top: 1.5rem;
+        }
+
+        .social-links a {
+            display: inline-block;
+            margin: 0 0.5rem;
+            padding: 0.5rem 1rem;
+            background: #667eea;
+            color: white;
+            text-decoration: none;
+            border-radius: 10px;
+            font-size: 0.6rem;
+            transition: all 0.3s ease;
+        }
+
+        .social-links a:hover {
+            background: #764ba2;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .logo {
+                font-size: 1.8rem;
+            }
+            
+            h1 {
+                font-size: 1rem;
+            }
+            
+            p {
+                font-size: 0.6rem;
+            }
+            
+            .icon {
+                font-size: 3rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="tetris-bg" id="tetris-bg"></div>
+    
+    <div class="container">
+        <div class="logo">🎮 BLOCKDROP</div>
+        
+        <div class="icon">🔧</div>
+        
+        <h1>Maintenance<br>en cours...</h1>
+        
+        <div class="status">⚡ Mise à jour système</div>
+        
+        <p>Nous améliorons votre<br>expérience de jeu !</p>
+        
+        <p>Le site sera de retour<br>très prochainement.</p>
+        
+        <div class="info">
+            <p>Merci de votre patience 💜</p>
+            <p>Temps estimé : Quelques minutes</p>
+        </div>
+        
+        <div class="social-links">
+            <a href="https://github.com/Zold-del/ZoldGaming" target="_blank" rel="noopener noreferrer">📱 GitHub</a>
+            <a href="#" onclick="location.reload()">🔄 Actualiser</a>
+        </div>
+    </div>
+
+    <script>
+        // Animation de blocs Tetris en arrière-plan
+        const tetrisBg = document.getElementById('tetris-bg');
+        const colors = ['#667eea', '#764ba2', '#f093fb', '#4facfe'];
+        
+        function createTetrisBlock() {
+            const block = document.createElement('div');
+            block.className = 'tetris-block';
+            block.style.left = Math.random() * 100 + '%';
+            block.style.animationDuration = (Math.random() * 3 + 5) + 's';
+            block.style.animationDelay = Math.random() * 2 + 's';
+            block.style.background = colors[Math.floor(Math.random() * colors.length)];
+            tetrisBg.appendChild(block);
+            
+            setTimeout(() => block.remove(), 10000);
+        }
+        
+        // Créer des blocs régulièrement
+        setInterval(createTetrisBlock, 500);
+        
+        // Créer quelques blocs initiaux
+        for (let i = 0; i < 10; i++) {
+            createTetrisBlock();
+        }
+    </script>
+</body>
+</html>
