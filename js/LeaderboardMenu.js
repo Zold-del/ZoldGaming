@@ -29,18 +29,23 @@ class LeaderboardMenu {
             GameSettings.language === 'fr' ? 'CLASSEMENT' : 'LEADERBOARD');
         menuContainer.appendChild(title);
 
-        // Vérification de la connexion au serveur
+        // Classement temporairement désactivé
+        const errorMsg = Utilities.createElement('div', { 
+            class: 'error-message',
+            style: 'color: #ff6b6b; text-align: center; margin: 2rem 0;'
+        }, GameSettings.language === 'fr' 
+            ? '⏳ Classement indisponible. Fonctionnalité à venir.'
+            : '⏳ Leaderboard unavailable. Coming soon.');
+        menuContainer.appendChild(errorMsg);
+        // Pour réactiver, remettre le code original ici
+        /*
         const serverAvailable = await window.apiService.checkServerHealth();
-        
         if (!serverAvailable) {
-            const errorMsg = Utilities.createElement('div', { 
-                class: 'error-message',
-                style: 'color: #ff6b6b; text-align: center; margin: 2rem 0;'
-            }, GameSettings.language === 'fr' 
-                ? '⚠️ Serveur hors ligne\nLe classement n\'est pas disponible.'
-                : '⚠️ Server offline\nLeaderboard unavailable.');
-            menuContainer.appendChild(errorMsg);
+            ...
         } else {
+            ...
+        }
+        */
             // Filtres
             const filtersContainer = Utilities.createElement('div', { 
                 class: 'leaderboard-filters',
@@ -138,9 +143,7 @@ class LeaderboardMenu {
                     : 'Error loading leaderboard');
                 menuContainer.appendChild(errorMsg);
             }
-        }
-
-        // Bouton retour
+            // Bouton retour
         const backButton = Utilities.createElement('button', { 
             style: 'margin-top: 2rem;' 
         }, Utilities.translate('backToMenu'));
