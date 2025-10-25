@@ -1,0 +1,50 @@
+═══════════════════════════════════════════════════════════════
+ MONGODB_URI À COPIER DANS VERCEL DASHBOARD
+═══════════════════════════════════════════════════════════════
+
+⚠️ IMPORTANT : Copiez cette valeur EXACTEMENT (sans guillemets, sans préfixe "MONGODB_URI=")
+
+mongodb+srv://anthonyfievet12az_db_user:Vauvert0809@cluster0.g2uegeo.mongodb.net/blockdrop?retryWrites=true&w=majority&appName=Cluster0
+
+═══════════════════════════════════════════════════════════════
+ INSTRUCTIONS VERCEL
+═══════════════════════════════════════════════════════════════
+
+1. Allez sur : https://vercel.com/game-zolds-projects/zold-gaming/settings/environment-variables
+
+2. Trouvez la variable MONGODB_URI existante
+
+3. Cliquez sur les 3 points (...) → Edit
+
+4. Remplacez la valeur par celle ci-dessus (incluant "/blockdrop" après .mongodb.net)
+
+5. Cliquez sur Save
+
+6. Redéployez le site :
+   - Allez dans Deployments
+   - Cliquez sur le dernier déploiement
+   - Cliquez sur "Redeploy"
+
+═══════════════════════════════════════════════════════════════
+ DIFFÉRENCE AVEC L'ANCIENNE VALEUR
+═══════════════════════════════════════════════════════════════
+
+❌ ANCIENNE (INCORRECTE) :
+mongodb+srv://...@cluster0.g2uegeo.mongodb.net/?appName=Cluster0
+
+✅ NOUVELLE (CORRECTE) :
+mongodb+srv://...@cluster0.g2uegeo.mongodb.net/blockdrop?retryWrites=true&w=majority&appName=Cluster0
+                                                         ^^^^^^^^^ NOM DE LA BASE DE DONNÉES
+
+═══════════════════════════════════════════════════════════════
+ POURQUOI CE CHANGEMENT ?
+═══════════════════════════════════════════════════════════════
+
+Sans "/blockdrop", MongoDB se connecte à la base "test" par défaut.
+Vos collections (users, scores, tokenblacklists) sont dans "blockdrop".
+
+C'est pourquoi les requêtes d'authentification échouaient (401 errors) :
+- Le serveur cherchait les users dans "test" (vide)
+- Les vrais users sont dans "blockdrop"
+
+═══════════════════════════════════════════════════════════════

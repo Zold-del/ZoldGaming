@@ -13,8 +13,11 @@ async function checkData() {
         console.log(`📊 Nombre d'utilisateurs : ${users.length}`);
         console.log('\n👥 UTILISATEURS :');
         users.forEach(user => {
-            console.log(`  - ${user.username} (${user.email})`);
+            const adminBadge = user.isAdmin ? '👑 ADMIN' : '👤 USER';
+            console.log(`  - ${user.username} (${user.email}) ${adminBadge}`);
+            console.log(`    ID: ${user._id}`);
             console.log(`    Créé le: ${user.createdAt}`);
+            console.log(`    isAdmin: ${user.isAdmin}`);
             console.log(`    Stats: ${user.stats.gamesPlayed} parties jouées\n`);
         });
 

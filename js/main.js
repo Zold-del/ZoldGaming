@@ -19,6 +19,10 @@ class BlockDropApp {    /**
         this.optionsMenu = new OptionsMenu(this.appContainer);
         this.pauseMenu = new PauseMenu(this.appContainer);
         
+        // Initialise le gestionnaire de publicités
+        this.adManager = new AdManager();
+        this.adManager.init();
+        
         // État actuel de l'application
         this.currentState = 'menu';
         
@@ -760,6 +764,20 @@ class BlockDropApp {    /**
      * @param {number} lines - Nombre de lignes complétées
      * @param {number} level - Niveau atteint
      */    showGameOver(score, lines, level) {
+        // Affiche une publicité interstitielle après la partie
+        this.adManager.showInterstitial(() => {
+            // Code exécuté après la fermeture de la pub
+            this.displayGameOverScreen(score, lines, level);
+        });
+    }
+    
+    /**
+     * Affiche l'écran de Game Over (après la pub)
+     * @param {number} score - Score final
+     * @param {number} lines - Nombre de lignes complétées
+     * @param {number} level - Niveau atteint
+     */
+    displayGameOverScreen(score, lines, level) {
         // Enregistre le score en ligne si connecté
         if (window.apiService && window.apiService.isAuthenticated()) {
             const duration = Math.floor((Date.now() - this.gameInstance.startTime) / 1000);
