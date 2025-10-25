@@ -104,7 +104,7 @@ class AdManager {
         const adElement = document.createElement('ins');
         adElement.className = 'adsbygoogle';
         adElement.style.cssText = 'display:inline-block;width:728px;height:90px';
-        adElement.setAttribute('data-ad-client', 'ca-pub-8939134496628901');
+    adElement.setAttribute('data-ad-client', 'ca-pub-8610926600441109');
         adElement.setAttribute('data-ad-slot', '3750170567');
         
         // Ajoute l'élément au conteneur
@@ -215,7 +215,7 @@ class AdManager {
             const adElement = document.createElement('ins');
             adElement.className = 'adsbygoogle';
             adElement.style.cssText = 'display:inline-block;width:336px;height:280px';
-            adElement.setAttribute('data-ad-client', 'ca-pub-8939134496628901');
+            adElement.setAttribute('data-ad-client', 'ca-pub-8610926600441109');
             adElement.setAttribute('data-ad-slot', '3750170567');
             
             adContainer.appendChild(adElement);
