@@ -1,0 +1,531 @@
+/* Optimisations mobiles pour BlockDrop Tetris */
+
+/* ======== MEDIA QUERIES POUR MOBILE ======== */
+
+/* Petits téléphones (320px - 480px) */
+@media (max-width: 480px) {
+    body {
+        font-size: 12px;
+        overflow-x: hidden;
+    }
+    
+    #app {
+        width: 100%;
+        max-width: 100vw;
+        padding: 10px;
+        box-sizing: border-box;
+    }
+    
+    /* Menu principal optimisé */
+    .main-menu {
+        width: 100%;
+        max-width: 100%;
+        padding: 20px 15px;
+    }
+    
+    .main-menu h1 {
+        font-size: 1.5rem !important;
+        margin-bottom: 20px;
+    }
+    
+    .main-menu button {
+        font-size: 0.8rem !important;
+        padding: 12px 20px !important;
+        margin: 8px 0 !important;
+        width: 100%;
+        max-width: 280px;
+    }
+    
+    /* Grille de jeu */
+    .game-canvas {
+        width: 100%;
+        max-width: 320px;
+        margin: 0 auto;
+    }
+    
+    .game-canvas canvas {
+        width: 100% !important;
+        height: auto !important;
+    }
+    
+    /* Panneau latéral */
+    .sidebar {
+        width: 100%;
+        max-width: 100%;
+        margin-top: 15px;
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: space-around;
+    }
+    
+    .sidebar > div {
+        width: 48%;
+        min-width: 140px;
+        margin: 5px 0;
+    }
+    
+    /* Stats */
+    .stat-value {
+        font-size: 1.2rem !important;
+    }
+    
+    .stat-label {
+        font-size: 0.7rem !important;
+    }
+    
+    /* Menu options */
+    .options-container {
+        width: 100%;
+        padding: 15px;
+        max-height: 80vh;
+        overflow-y: auto;
+    }
+    
+    .options-section {
+        margin: 15px 0;
+    }
+    
+    .options-section-title {
+        font-size: 1rem !important;
+        margin-bottom: 10px;
+    }
+    
+    .option-row {
+        flex-direction: column;
+        align-items: flex-start !important;
+        margin: 12px 0;
+    }
+    
+    .option-label {
+        margin-bottom: 8px;
+        font-size: 0.8rem !important;
+    }
+    
+    .slider-container {
+        width: 100%;
+    }
+    
+    .slider {
+        width: 100% !important;
+    }
+    
+    /* Boutons de langue */
+    .lang-buttons {
+        display: flex;
+        gap: 10px;
+        width: 100%;
+    }
+    
+    .lang-button {
+        flex: 1;
+        padding: 12px !important;
+        font-size: 0.9rem !important;
+    }
+    
+    /* Thèmes et styles */
+    .color-themes,
+    .music-selector-container {
+        width: 100%;
+        gap: 10px !important;
+    }
+    
+    .theme-wrapper {
+        margin: 5px !important;
+    }
+    
+    .color-theme {
+        width: 60px !important;
+        height: 60px !important;
+    }
+    
+    .tetromino-style-btn,
+    .music-button {
+        font-size: 0.7rem !important;
+        padding: 8px 12px !important;
+        min-width: auto !important;
+    }
+    
+    /* Leaderboard */
+    .leaderboard-table {
+        font-size: 0.7rem !important;
+        overflow-x: auto;
+    }
+    
+    .leaderboard-table th,
+    .leaderboard-table td {
+        padding: 8px 4px !important;
+    }
+    
+    /* Modales */
+    .modal-content {
+        width: 95%;
+        max-width: 95vw;
+        padding: 20px 15px;
+        max-height: 85vh;
+        overflow-y: auto;
+    }
+    
+    /* Paramètres utilisateur */
+    .user-settings-container {
+        width: 100%;
+        padding: 15px;
+    }
+    
+    .settings-section {
+        margin: 15px 0;
+    }
+    
+    .info-row {
+        font-size: 0.8rem !important;
+        padding: 8px 0;
+    }
+    
+    .rgpd-action-btn {
+        width: 100%;
+        margin: 8px 0 !important;
+        font-size: 0.8rem !important;
+        padding: 12px !important;
+    }
+    
+    /* Panel admin mobile */
+    .admin-container {
+        padding: 10px;
+    }
+    
+    .admin-header {
+        flex-direction: column;
+        gap: 10px;
+    }
+    
+    .admin-nav {
+        width: 100%;
+        flex-direction: row;
+        overflow-x: auto;
+        white-space: nowrap;
+    }
+    
+    .nav-item {
+        font-size: 0.7rem !important;
+        padding: 8px 12px !important;
+    }
+    
+    .admin-content {
+        padding: 10px;
+    }
+    
+    .stats-grid {
+        grid-template-columns: 1fr !important;
+        gap: 10px;
+    }
+    
+    .admin-table {
+        font-size: 0.7rem !important;
+        display: block;
+        overflow-x: auto;
+        white-space: nowrap;
+    }
+}
+
+/* Tablettes (481px - 768px) */
+@media (min-width: 481px) and (max-width: 768px) {
+    #app {
+        padding: 20px;
+    }
+    
+    .main-menu h1 {
+        font-size: 2rem !important;
+    }
+    
+    .main-menu button {
+        font-size: 0.9rem !important;
+        padding: 14px 25px !important;
+    }
+    
+    .game-canvas {
+        max-width: 400px;
+    }
+    
+    .sidebar {
+        width: 100%;
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 15px;
+        margin-top: 20px;
+    }
+    
+    .options-container {
+        max-width: 600px;
+        margin: 0 auto;
+    }
+    
+    .option-row {
+        flex-direction: row !important;
+    }
+    
+    .color-themes {
+        justify-content: center;
+    }
+}
+
+/* Grandes tablettes et petits desktops (769px - 1024px) */
+@media (min-width: 769px) and (max-width: 1024px) {
+    .sidebar {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 20px;
+    }
+    
+    .admin-nav {
+        flex-wrap: wrap;
+    }
+}
+
+/* ======== CONTRÔLES TACTILES POUR MOBILE ======== */
+
+/* Conteneur des contrôles tactiles */
+.touch-controls {
+    display: none; /* Caché par défaut */
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(24, 24, 37, 0.95);
+    padding: 15px;
+    border-top: 2px solid var(--primary);
+    z-index: 1000;
+    box-shadow: 0 -5px 20px rgba(0, 0, 0, 0.5);
+}
+
+@media (max-width: 768px) {
+    .touch-controls {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        grid-template-rows: repeat(2, auto);
+        gap: 10px;
+        max-width: 100vw;
+    }
+}
+
+/* Boutons tactiles */
+.touch-btn {
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    border: 2px solid var(--primary);
+    border-radius: 12px;
+    color: var(--dark);
+    font-family: 'Press Start 2P', monospace;
+    font-size: 0.8rem;
+    padding: 15px;
+    cursor: pointer;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 5px;
+    transition: all 0.1s;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+.touch-btn:active {
+    transform: scale(0.95);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3), 0 0 20px var(--primary);
+    background: linear-gradient(135deg, var(--secondary), var(--primary));
+}
+
+.touch-btn .icon {
+    font-size: 1.5rem;
+}
+
+.touch-btn .label {
+    font-size: 0.6rem;
+    margin-top: 3px;
+}
+
+/* Disposition spécifique des boutons */
+.touch-btn.left {
+    grid-column: 1;
+    grid-row: 1;
+}
+
+.touch-btn.right {
+    grid-column: 2;
+    grid-row: 1;
+}
+
+.touch-btn.rotate {
+    grid-column: 3;
+    grid-row: 1;
+}
+
+.touch-btn.rotate-reverse {
+    grid-column: 4;
+    grid-row: 1;
+}
+
+.touch-btn.down {
+    grid-column: 1 / 3;
+    grid-row: 2;
+}
+
+.touch-btn.drop {
+    grid-column: 3 / 5;
+    grid-row: 2;
+}
+
+/* Amélioration de l'interface tactile */
+@media (max-width: 768px) {
+    /* Empêche le zoom au double-tap */
+    * {
+        touch-action: manipulation;
+    }
+    
+    /* Désactive la sélection de texte sur mobile */
+    body {
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+    }
+    
+    /* Améliore les zones tactiles */
+    button, a, input[type="checkbox"], input[type="range"] {
+        min-height: 44px;
+        min-width: 44px;
+    }
+    
+    /* Ajuste l'espacement pour les doigts */
+    .main-menu button,
+    .lang-button,
+    .tetromino-style-btn,
+    .music-button {
+        margin: 10px 5px !important;
+    }
+    
+    /* Améliore les sliders pour le tactile */
+    input[type="range"] {
+        height: 40px;
+        -webkit-appearance: none;
+        appearance: none;
+    }
+    
+    input[type="range"]::-webkit-slider-thumb {
+        width: 30px;
+        height: 30px;
+        -webkit-appearance: none;
+        appearance: none;
+        cursor: pointer;
+    }
+    
+    input[type="range"]::-moz-range-thumb {
+        width: 30px;
+        height: 30px;
+        cursor: pointer;
+    }
+    
+    /* Désactive le pull-to-refresh */
+    body {
+        overscroll-behavior-y: contain;
+    }
+    
+    /* Zone de jeu optimisée pour mobile */
+    .game-container {
+        display: flex;
+        flex-direction: column;
+        padding-bottom: 200px; /* Espace pour les contrôles */
+    }
+}
+
+/* Orientation paysage sur mobile */
+@media (max-width: 768px) and (orientation: landscape) {
+    .touch-controls {
+        padding: 10px;
+        gap: 8px;
+    }
+    
+    .touch-btn {
+        padding: 10px;
+        font-size: 0.7rem;
+    }
+    
+    .touch-btn .icon {
+        font-size: 1.2rem;
+    }
+    
+    .touch-btn .label {
+        font-size: 0.5rem;
+    }
+    
+    .game-container {
+        padding-bottom: 150px;
+    }
+}
+
+/* Support pour les gros téléphones */
+@media (min-width: 481px) and (max-width: 768px) {
+    .touch-btn {
+        padding: 18px;
+        font-size: 0.9rem;
+    }
+    
+    .touch-btn .icon {
+        font-size: 1.8rem;
+    }
+    
+    .touch-btn .label {
+        font-size: 0.7rem;
+    }
+}
+
+/* ======== OPTIMISATIONS PERFORMANCE ======== */
+
+/* Désactive les animations sur mobile pour améliorer les performances */
+@media (max-width: 768px) {
+    /* Réduit les animations */
+    * {
+        animation-duration: 0.3s !important;
+    }
+    
+    /* Simplifie les effets de particules */
+    .particle {
+        opacity: 0.5;
+    }
+    
+    /* Réduit les ombres pour améliorer les performances */
+    .game-board,
+    .sidebar,
+    button {
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3) !important;
+    }
+}
+
+/* Mode basse consommation */
+@media (prefers-reduced-motion: reduce) {
+    * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+    :root {
+        --background: #0a0a0f;
+        --grid-background: rgba(5, 5, 10, 0.9);
+    }
+}
+
+/* Accessibilité - Contraste élevé */
+@media (prefers-contrast: high) {
+    :root {
+        --primary: #00ffff;
+        --secondary: #ff0099;
+    }
+    
+    button {
+        border-width: 3px !important;
+    }
+}

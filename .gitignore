@@ -1,2 +1,24 @@
-.vercel
+# Dépendances
+node_modules/
+server/node_modules/
+
+# Environment
+.env
+.env.local
 .env*.local
+server/.env
+
+# Vercel
+.vercel
+
+# Backups
+*_BACKUP.js
+*_NEW.js
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
