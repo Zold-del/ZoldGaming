@@ -1,0 +1,11 @@
+node_modules
+server/node_modules
+*.log
+.env
+.DS_Store
+archive
+scripts
+*.md
+deploy*.sh
+deploy*.bat
+deploy*.ps1
